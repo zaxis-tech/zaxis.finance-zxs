@@ -6,9 +6,9 @@ This section of the guide provides type definitions of various categories.
 
 Diagrams are rendered in high resolution; open them in a separate tab to see full scale.
 
-These data types are defined in `polkadot/primitives/src/v1.rs`:
+These data types are defined in `zaxis/primitives/src/v1.rs`:
 
-```dot process
+```zxs process
 digraph {
     rankdir = LR;
     node [shape = plain]
@@ -31,8 +31,8 @@ digraph {
     CandidateDescriptor:collator -> CollatorId:w
     CandidateDescriptor:persisted_validation_data_hash -> PersistedValidationDataHash
 
-    Id [label="polkadot_parachain::primitives::Id"]
-    CollatorId [label="polkadot_primitives::v0::CollatorId"]
+    Id [label="zaxis_parachain::primitives::Id"]
+    CollatorId [label="zaxis_primitives::v0::CollatorId"]
 
     PoVHash [label = "Hash", shape="doublecircle", fill="gray90"]
 
@@ -114,7 +114,7 @@ digraph {
         </table>
     >]
 
-    TransientValidationData:balance -> "polkadot_core_primitives::v1::Balance":w
+    TransientValidationData:balance -> "zaxis_core_primitives::v1::Balance":w
 
     CandidateCommitments [label = <
         <table>
@@ -128,11 +128,11 @@ digraph {
         </table>
     >]
 
-    CandidateCommitments:upward_messages -> "polkadot_parachain::primitives::UpwardMessage":w
-    CandidateCommitments:horizontal_messages -> "polkadot_core_primitives::v1::OutboundHrmpMessage":w
+    CandidateCommitments:upward_messages -> "zaxis_parachain::primitives::UpwardMessage":w
+    CandidateCommitments:horizontal_messages -> "zaxis_core_primitives::v1::OutboundHrmpMessage":w
     CandidateCommitments:head_data -> HeadData:w
-    CandidateCommitments:horizontal_messages -> "polkadot_parachain::primitives::Id":w
-    CandidateCommitments:new_validation_code -> "polkadot_parachain::primitives::ValidationCode":w
+    CandidateCommitments:horizontal_messages -> "zaxis_parachain::primitives::Id":w
+    CandidateCommitments:new_validation_code -> "zaxis_parachain::primitives::ValidationCode":w
 
     PoV [label = <
         <table>
@@ -141,7 +141,7 @@ digraph {
         </table>
     >]
 
-    PoV:block_data -> "polkadot_parachain::primitives::BlockData":w
+    PoV:block_data -> "zaxis_parachain::primitives::BlockData":w
 
     BackedCandidate [label = <
         <table>
@@ -153,9 +153,9 @@ digraph {
     >]
 
     BackedCandidate:candidate -> CommittedCandidateReceipt:name
-    BackedCandidate:validity_votes  -> "polkadot_primitives:v0:ValidityAttestation":w
+    BackedCandidate:validity_votes  -> "zaxis_primitives:v0:ValidityAttestation":w
 
-    HeadData [label = "polkadot_parachain::primitives::HeadData"]
+    HeadData [label = "zaxis_parachain::primitives::HeadData"]
 
     CoreIndex [label = <
         <table>
@@ -302,9 +302,9 @@ digraph {
     SessionInfo:discovery_keys -> AuthorityDiscoveryId:w
     SessionInfo:validator_groups -> ValidatorIndex:w
 
-    ValidatorId [label = "polkadot_primitives::v0::ValidatorId"]
+    ValidatorId [label = "zaxis_primitives::v0::ValidatorId"]
     AuthorityDiscoveryId [label = "sp_authority_discovery::AuthorityId"]
-    ValidatorIndex [label = "polkadot_primitives::v0::ValidatorIndex"]
+    ValidatorIndex [label = "zaxis_primitives::v0::ValidatorIndex"]
 
     AbridgedHostConfiguration [label = <
         <table>
@@ -337,9 +337,9 @@ digraph {
 }
 ```
 
-These data types are defined in `polkadot/parachain/src/primitives.rs`:
+These data types are defined in `zaxis/parachain/src/primitives.rs`:
 
-```dot process
+```zxs process
 digraph {
     rankdir = LR;
     node [shape = plain]
@@ -405,7 +405,7 @@ digraph {
     ValidationParams:block_data -> BlockData:name
     ValidationParams:relay_parent_number -> RelayChainBlockNumber:w
 
-    RelayChainBlockNumber [label = "polkadot_core_primitives::BlockNumber"]
+    RelayChainBlockNumber [label = "zaxis_core_primitives::BlockNumber"]
 
     ValidationResult [label = <
         <table>
@@ -427,6 +427,6 @@ digraph {
     ValidationResult:hrmp_watermark -> RelayChainBlockNumber:w
 
     UpwardMessage [label = "Vec<u8>"]
-    OutboundHrmpMessage [label = "polkadot_core_primitives::OutboundHrmpMessage"]
+    OutboundHrmpMessage [label = "zaxis_core_primitives::OutboundHrmpMessage"]
 }
 ```

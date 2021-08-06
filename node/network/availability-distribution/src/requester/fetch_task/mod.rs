@@ -1,18 +1,18 @@
 // Copyright 2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 use std::collections::HashSet;
 
@@ -22,17 +22,17 @@ use futures::{
 	FutureExt, SinkExt,
 };
 
-use polkadot_erasure_coding::branch_hash;
-use polkadot_node_network_protocol::request_response::{
+use zaxis_erasure_coding::branch_hash;
+use zaxis_node_network_protocol::request_response::{
 	request::{OutgoingRequest, Recipient, RequestError, Requests},
 	v1::{ChunkFetchingRequest, ChunkFetchingResponse},
 };
-use polkadot_node_primitives::ErasureChunk;
-use polkadot_primitives::v1::{
+use zaxis_node_primitives::ErasureChunk;
+use zaxis_primitives::v1::{
 	AuthorityDiscoveryId, BlakeTwo256, CandidateHash, GroupIndex, Hash, HashT, OccupiedCore,
 	SessionIndex,
 };
-use polkadot_subsystem::{
+use zaxis_subsystem::{
 	jaeger,
 	messages::{AllMessages, AvailabilityStoreMessage, IfDisconnected, NetworkBridgeMessage},
 	SubsystemContext,

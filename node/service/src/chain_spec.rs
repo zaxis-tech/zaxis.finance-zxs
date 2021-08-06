@@ -1,20 +1,20 @@
 // Copyright 2017-2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
-//! Polkadot chain configurations.
+//! Z-Axis chain configurations.
 
 use beefy_primitives::crypto::AuthorityId as BeefyId;
 use grandpa::AuthorityId as GrandpaId;
@@ -24,9 +24,9 @@ use kusama_runtime as kusama;
 use kusama_runtime::constants::currency::UNITS as KSM;
 use pallet_im_online::sr25519::AuthorityId as ImOnlineId;
 use pallet_staking::Forcing;
-use polkadot::constants::currency::UNITS as DOT;
-use polkadot_primitives::v1::{AccountId, AccountPublic, AssignmentId, ValidatorId};
-use polkadot_runtime as polkadot;
+use zaxis::constants::currency::UNITS as DOT;
+use zaxis_primitives::v1::{AccountId, AccountPublic, AssignmentId, ValidatorId};
+use zaxis_runtime as zaxis;
 use sp_authority_discovery::AuthorityId as AuthorityDiscoveryId;
 use sp_consensus_babe::AuthorityId as BabeId;
 
@@ -44,14 +44,14 @@ use westend_runtime as westend;
 #[cfg(feature = "westend-native")]
 use westend_runtime::constants::currency::UNITS as WND;
 
-const POLKADOT_STAGING_TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
+const ZAXIS_STAGING_TELEMETRY_URL: &str = "wss://telemetry.zaxis.io/submit/";
 #[cfg(feature = "kusama-native")]
-const KUSAMA_STAGING_TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
+const KUSAMA_STAGING_TELEMETRY_URL: &str = "wss://telemetry.zaxis.io/submit/";
 #[cfg(feature = "westend-native")]
-const WESTEND_STAGING_TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
+const WESTEND_STAGING_TELEMETRY_URL: &str = "wss://telemetry.zaxis.io/submit/";
 #[cfg(feature = "rococo-native")]
-const ROCOCO_STAGING_TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
-const DEFAULT_PROTOCOL_ID: &str = "dot";
+const ROCOCO_STAGING_TELEMETRY_URL: &str = "wss://telemetry.zaxis.io/submit/";
+const DEFAULT_PROTOCOL_ID: &str = "zxs";
 
 /// Node `ChainSpec` extensions.
 ///
@@ -61,44 +61,44 @@ const DEFAULT_PROTOCOL_ID: &str = "dot";
 #[serde(rename_all = "camelCase")]
 pub struct Extensions {
 	/// Block numbers with known hashes.
-	pub fork_blocks: sc_client_api::ForkBlocks<polkadot_primitives::v1::Block>,
+	pub fork_blocks: sc_client_api::ForkBlocks<zaxis_primitives::v1::Block>,
 	/// Known bad block hashes.
-	pub bad_blocks: sc_client_api::BadBlocks<polkadot_primitives::v1::Block>,
+	pub bad_blocks: sc_client_api::BadBlocks<zaxis_primitives::v1::Block>,
 	/// The light sync state.
 	///
 	/// This value will be set by the `sync-state rpc` implementation.
 	pub light_sync_state: sc_sync_state_rpc::LightSyncStateExtension,
 }
 
-/// The `ChainSpec` parameterized for the polkadot runtime.
-pub type PolkadotChainSpec = service::GenericChainSpec<polkadot::GenesisConfig, Extensions>;
+/// The `ChainSpec` parameterized for the zaxis runtime.
+pub type Z-AxisChainSpec = service::GenericChainSpec<zaxis::GenesisConfig, Extensions>;
 
 /// The `ChainSpec` parameterized for the kusama runtime.
 #[cfg(feature = "kusama-native")]
 pub type KusamaChainSpec = service::GenericChainSpec<kusama::GenesisConfig, Extensions>;
 
 /// The `ChainSpec` parameterized for the kusama runtime.
-// This actually uses the polkadot chain spec, but that is fine when we don't have the native runtime.
+// This actually uses the zaxis chain spec, but that is fine when we don't have the native runtime.
 #[cfg(not(feature = "kusama-native"))]
-pub type KusamaChainSpec = PolkadotChainSpec;
+pub type KusamaChainSpec = Z-AxisChainSpec;
 
 /// The `ChainSpec` parameterized for the westend runtime.
 #[cfg(feature = "westend-native")]
 pub type WestendChainSpec = service::GenericChainSpec<westend::GenesisConfig, Extensions>;
 
 /// The `ChainSpec` parameterized for the westend runtime.
-// This actually uses the polkadot chain spec, but that is fine when we don't have the native runtime.
+// This actually uses the zaxis chain spec, but that is fine when we don't have the native runtime.
 #[cfg(not(feature = "westend-native"))]
-pub type WestendChainSpec = PolkadotChainSpec;
+pub type WestendChainSpec = Z-AxisChainSpec;
 
 /// The `ChainSpec` parameterized for the rococo runtime.
 #[cfg(feature = "rococo-native")]
 pub type RococoChainSpec = service::GenericChainSpec<RococoGenesisExt, Extensions>;
 
 /// The `ChainSpec` parameterized for the rococo runtime.
-// This actually uses the polkadot chain spec, but that is fine when we don't have the native runtime.
+// This actually uses the zaxis chain spec, but that is fine when we don't have the native runtime.
 #[cfg(not(feature = "rococo-native"))]
-pub type RococoChainSpec = PolkadotChainSpec;
+pub type RococoChainSpec = Z-AxisChainSpec;
 
 /// Extension for the Rococo genesis config to support a custom changes to the genesis state.
 #[derive(serde::Serialize, serde::Deserialize)]
@@ -124,8 +124,8 @@ impl sp_runtime::BuildStorage for RococoGenesisExt {
 	}
 }
 
-pub fn polkadot_config() -> Result<PolkadotChainSpec, String> {
-	PolkadotChainSpec::from_json_bytes(&include_bytes!("../res/polkadot.json")[..])
+pub fn zaxis_config() -> Result<Z-AxisChainSpec, String> {
+	Z-AxisChainSpec::from_json_bytes(&include_bytes!("../res/zaxis.json")[..])
 }
 
 pub fn kusama_config() -> Result<KusamaChainSpec, String> {
@@ -148,12 +148,12 @@ pub fn wococo_config() -> Result<RococoChainSpec, String> {
 /// The default parachains host configuration.
 #[cfg(any(feature = "rococo-native", feature = "kusama-native", feature = "westend-native"))]
 fn default_parachains_host_configuration(
-) -> polkadot_runtime_parachains::configuration::HostConfiguration<
-	polkadot_primitives::v1::BlockNumber,
+) -> zaxis_runtime_parachains::configuration::HostConfiguration<
+	zaxis_primitives::v1::BlockNumber,
 > {
-	use polkadot_primitives::v1::{MAX_CODE_SIZE, MAX_POV_SIZE};
+	use zaxis_primitives::v1::{MAX_CODE_SIZE, MAX_POV_SIZE};
 
-	polkadot_runtime_parachains::configuration::HostConfiguration {
+	zaxis_runtime_parachains::configuration::HostConfiguration {
 		validation_upgrade_frequency: 1u32,
 		validation_upgrade_delay: 1,
 		code_retention_period: 1200,
@@ -195,15 +195,15 @@ fn default_parachains_host_configuration(
 	}
 }
 
-fn polkadot_session_keys(
+fn zaxis_session_keys(
 	babe: BabeId,
 	grandpa: GrandpaId,
 	im_online: ImOnlineId,
 	para_validator: ValidatorId,
 	para_assignment: AssignmentId,
 	authority_discovery: AuthorityDiscoveryId,
-) -> polkadot::SessionKeys {
-	polkadot::SessionKeys {
+) -> zaxis::SessionKeys {
+	zaxis::SessionKeys {
 		babe,
 		grandpa,
 		im_online,
@@ -272,7 +272,7 @@ fn rococo_session_keys(
 	}
 }
 
-fn polkadot_staging_testnet_config_genesis(wasm_binary: &[u8]) -> polkadot::GenesisConfig {
+fn zaxis_staging_testnet_config_genesis(wasm_binary: &[u8]) -> zaxis::GenesisConfig {
 	// subkey inspect "$SECRET"
 	let endowed_accounts = vec![];
 
@@ -290,27 +290,27 @@ fn polkadot_staging_testnet_config_genesis(wasm_binary: &[u8]) -> polkadot::Gene
 	const ENDOWMENT: u128 = 1_000_000 * DOT;
 	const STASH: u128 = 100 * DOT;
 
-	polkadot::GenesisConfig {
-		system: polkadot::SystemConfig {
+	zaxis::GenesisConfig {
+		system: zaxis::SystemConfig {
 			code: wasm_binary.to_vec(),
 			changes_trie_config: Default::default(),
 		},
-		balances: polkadot::BalancesConfig {
+		balances: zaxis::BalancesConfig {
 			balances: endowed_accounts
 				.iter()
 				.map(|k: &AccountId| (k.clone(), ENDOWMENT))
 				.chain(initial_authorities.iter().map(|x| (x.0.clone(), STASH)))
 				.collect(),
 		},
-		indices: polkadot::IndicesConfig { indices: vec![] },
-		session: polkadot::SessionConfig {
+		indices: zaxis::IndicesConfig { indices: vec![] },
+		session: zaxis::SessionConfig {
 			keys: initial_authorities
 				.iter()
 				.map(|x| {
 					(
 						x.0.clone(),
 						x.0.clone(),
-						polkadot_session_keys(
+						zaxis_session_keys(
 							x.2.clone(),
 							x.3.clone(),
 							x.4.clone(),
@@ -322,12 +322,12 @@ fn polkadot_staging_testnet_config_genesis(wasm_binary: &[u8]) -> polkadot::Gene
 				})
 				.collect::<Vec<_>>(),
 		},
-		staking: polkadot::StakingConfig {
+		staking: zaxis::StakingConfig {
 			validator_count: 50,
 			minimum_validator_count: 4,
 			stakers: initial_authorities
 				.iter()
-				.map(|x| (x.0.clone(), x.1.clone(), STASH, polkadot::StakerStatus::Validator))
+				.map(|x| (x.0.clone(), x.1.clone(), STASH, zaxis::StakerStatus::Validator))
 				.collect(),
 			invulnerables: initial_authorities.iter().map(|x| x.0.clone()).collect(),
 			force_era: Forcing::ForceNone,
@@ -336,21 +336,21 @@ fn polkadot_staging_testnet_config_genesis(wasm_binary: &[u8]) -> polkadot::Gene
 		},
 		phragmen_election: Default::default(),
 		democracy: Default::default(),
-		council: polkadot::CouncilConfig { members: vec![], phantom: Default::default() },
-		technical_committee: polkadot::TechnicalCommitteeConfig {
+		council: zaxis::CouncilConfig { members: vec![], phantom: Default::default() },
+		technical_committee: zaxis::TechnicalCommitteeConfig {
 			members: vec![],
 			phantom: Default::default(),
 		},
 		technical_membership: Default::default(),
-		babe: polkadot::BabeConfig {
+		babe: zaxis::BabeConfig {
 			authorities: Default::default(),
-			epoch_config: Some(polkadot::BABE_GENESIS_EPOCH_CONFIG),
+			epoch_config: Some(zaxis::BABE_GENESIS_EPOCH_CONFIG),
 		},
 		grandpa: Default::default(),
 		im_online: Default::default(),
-		authority_discovery: polkadot::AuthorityDiscoveryConfig { keys: vec![] },
-		claims: polkadot::ClaimsConfig { claims: vec![], vesting: vec![] },
-		vesting: polkadot::VestingConfig { vesting: vec![] },
+		authority_discovery: zaxis::AuthorityDiscoveryConfig { keys: vec![] },
+		claims: zaxis::ClaimsConfig { claims: vec![], vesting: vec![] },
+		vesting: zaxis::VestingConfig { vesting: vec![] },
 		treasury: Default::default(),
 	}
 }
@@ -1046,20 +1046,20 @@ fn rococo_staging_testnet_config_genesis(wasm_binary: &[u8]) -> rococo_runtime::
 	}
 }
 
-/// Polkadot staging testnet config.
-pub fn polkadot_staging_testnet_config() -> Result<PolkadotChainSpec, String> {
-	let wasm_binary = polkadot::WASM_BINARY.ok_or("Polkadot development wasm not available")?;
+/// Z-Axis staging testnet config.
+pub fn zaxis_staging_testnet_config() -> Result<Z-AxisChainSpec, String> {
+	let wasm_binary = zaxis::WASM_BINARY.ok_or("Z-Axis development wasm not available")?;
 	let boot_nodes = vec![];
 
-	Ok(PolkadotChainSpec::from_genesis(
-		"Polkadot Staging Testnet",
-		"polkadot_staging_testnet",
+	Ok(Z-AxisChainSpec::from_genesis(
+		"Z-Axis Staging Testnet",
+		"zaxis_staging_testnet",
 		ChainType::Live,
-		move || polkadot_staging_testnet_config_genesis(wasm_binary),
+		move || zaxis_staging_testnet_config_genesis(wasm_binary),
 		boot_nodes,
 		Some(
-			TelemetryEndpoints::new(vec![(POLKADOT_STAGING_TELEMETRY_URL.to_string(), 0)])
-				.expect("Polkadot Staging telemetry url is valid; qed"),
+			TelemetryEndpoints::new(vec![(ZAXIS_STAGING_TELEMETRY_URL.to_string(), 0)])
+				.expect("Z-Axis Staging telemetry url is valid; qed"),
 		),
 		Some(DEFAULT_PROTOCOL_ID),
 		None,
@@ -1211,8 +1211,8 @@ fn testnet_accounts() -> Vec<AccountId> {
 	]
 }
 
-/// Helper function to create polkadot `GenesisConfig` for testing
-pub fn polkadot_testnet_genesis(
+/// Helper function to create zaxis `GenesisConfig` for testing
+pub fn zaxis_testnet_genesis(
 	wasm_binary: &[u8],
 	initial_authorities: Vec<(
 		AccountId,
@@ -1226,29 +1226,29 @@ pub fn polkadot_testnet_genesis(
 	)>,
 	_root_key: AccountId,
 	endowed_accounts: Option<Vec<AccountId>>,
-) -> polkadot::GenesisConfig {
+) -> zaxis::GenesisConfig {
 	let endowed_accounts: Vec<AccountId> = endowed_accounts.unwrap_or_else(testnet_accounts);
 
 	const ENDOWMENT: u128 = 1_000_000 * DOT;
 	const STASH: u128 = 100 * DOT;
 
-	polkadot::GenesisConfig {
-		system: polkadot::SystemConfig {
+	zaxis::GenesisConfig {
+		system: zaxis::SystemConfig {
 			code: wasm_binary.to_vec(),
 			changes_trie_config: Default::default(),
 		},
-		indices: polkadot::IndicesConfig { indices: vec![] },
-		balances: polkadot::BalancesConfig {
+		indices: zaxis::IndicesConfig { indices: vec![] },
+		balances: zaxis::BalancesConfig {
 			balances: endowed_accounts.iter().map(|k| (k.clone(), ENDOWMENT)).collect(),
 		},
-		session: polkadot::SessionConfig {
+		session: zaxis::SessionConfig {
 			keys: initial_authorities
 				.iter()
 				.map(|x| {
 					(
 						x.0.clone(),
 						x.0.clone(),
-						polkadot_session_keys(
+						zaxis_session_keys(
 							x.2.clone(),
 							x.3.clone(),
 							x.4.clone(),
@@ -1260,12 +1260,12 @@ pub fn polkadot_testnet_genesis(
 				})
 				.collect::<Vec<_>>(),
 		},
-		staking: polkadot::StakingConfig {
+		staking: zaxis::StakingConfig {
 			minimum_validator_count: 1,
 			validator_count: initial_authorities.len() as u32,
 			stakers: initial_authorities
 				.iter()
-				.map(|x| (x.0.clone(), x.1.clone(), STASH, polkadot::StakerStatus::Validator))
+				.map(|x| (x.0.clone(), x.1.clone(), STASH, zaxis::StakerStatus::Validator))
 				.collect(),
 			invulnerables: initial_authorities.iter().map(|x| x.0.clone()).collect(),
 			force_era: Forcing::NotForcing,
@@ -1273,22 +1273,22 @@ pub fn polkadot_testnet_genesis(
 			..Default::default()
 		},
 		phragmen_election: Default::default(),
-		democracy: polkadot::DemocracyConfig::default(),
-		council: polkadot::CouncilConfig { members: vec![], phantom: Default::default() },
-		technical_committee: polkadot::TechnicalCommitteeConfig {
+		democracy: zaxis::DemocracyConfig::default(),
+		council: zaxis::CouncilConfig { members: vec![], phantom: Default::default() },
+		technical_committee: zaxis::TechnicalCommitteeConfig {
 			members: vec![],
 			phantom: Default::default(),
 		},
 		technical_membership: Default::default(),
-		babe: polkadot::BabeConfig {
+		babe: zaxis::BabeConfig {
 			authorities: Default::default(),
-			epoch_config: Some(polkadot::BABE_GENESIS_EPOCH_CONFIG),
+			epoch_config: Some(zaxis::BABE_GENESIS_EPOCH_CONFIG),
 		},
 		grandpa: Default::default(),
 		im_online: Default::default(),
-		authority_discovery: polkadot::AuthorityDiscoveryConfig { keys: vec![] },
-		claims: polkadot::ClaimsConfig { claims: vec![], vesting: vec![] },
-		vesting: polkadot::VestingConfig { vesting: vec![] },
+		authority_discovery: zaxis::AuthorityDiscoveryConfig { keys: vec![] },
+		claims: zaxis::ClaimsConfig { claims: vec![], vesting: vec![] },
+		vesting: zaxis::VestingConfig { vesting: vec![] },
 		treasury: Default::default(),
 	}
 }
@@ -1545,8 +1545,8 @@ pub fn rococo_testnet_genesis(
 	}
 }
 
-fn polkadot_development_config_genesis(wasm_binary: &[u8]) -> polkadot::GenesisConfig {
-	polkadot_testnet_genesis(
+fn zaxis_development_config_genesis(wasm_binary: &[u8]) -> zaxis::GenesisConfig {
+	zaxis_testnet_genesis(
 		wasm_binary,
 		vec![get_authority_keys_from_seed_no_beefy("Alice")],
 		get_account_id_from_seed::<sr25519::Public>("Alice"),
@@ -1584,15 +1584,15 @@ fn rococo_development_config_genesis(wasm_binary: &[u8]) -> rococo_runtime::Gene
 	)
 }
 
-/// Polkadot development config (single validator Alice)
-pub fn polkadot_development_config() -> Result<PolkadotChainSpec, String> {
-	let wasm_binary = polkadot::WASM_BINARY.ok_or("Polkadot development wasm not available")?;
+/// Z-Axis development config (single validator Alice)
+pub fn zaxis_development_config() -> Result<Z-AxisChainSpec, String> {
+	let wasm_binary = zaxis::WASM_BINARY.ok_or("Z-Axis development wasm not available")?;
 
-	Ok(PolkadotChainSpec::from_genesis(
+	Ok(Z-AxisChainSpec::from_genesis(
 		"Development",
 		"dev",
 		ChainType::Development,
-		move || polkadot_development_config_genesis(wasm_binary),
+		move || zaxis_development_config_genesis(wasm_binary),
 		vec![],
 		None,
 		Some(DEFAULT_PROTOCOL_ID),
@@ -1682,8 +1682,8 @@ pub fn wococo_development_config() -> Result<RococoChainSpec, String> {
 	))
 }
 
-fn polkadot_local_testnet_genesis(wasm_binary: &[u8]) -> polkadot::GenesisConfig {
-	polkadot_testnet_genesis(
+fn zaxis_local_testnet_genesis(wasm_binary: &[u8]) -> zaxis::GenesisConfig {
+	zaxis_testnet_genesis(
 		wasm_binary,
 		vec![
 			get_authority_keys_from_seed_no_beefy("Alice"),
@@ -1694,15 +1694,15 @@ fn polkadot_local_testnet_genesis(wasm_binary: &[u8]) -> polkadot::GenesisConfig
 	)
 }
 
-/// Polkadot local testnet config (multivalidator Alice + Bob)
-pub fn polkadot_local_testnet_config() -> Result<PolkadotChainSpec, String> {
-	let wasm_binary = polkadot::WASM_BINARY.ok_or("Polkadot development wasm not available")?;
+/// Z-Axis local testnet config (multivalidator Alice + Bob)
+pub fn zaxis_local_testnet_config() -> Result<Z-AxisChainSpec, String> {
+	let wasm_binary = zaxis::WASM_BINARY.ok_or("Z-Axis development wasm not available")?;
 
-	Ok(PolkadotChainSpec::from_genesis(
+	Ok(Z-AxisChainSpec::from_genesis(
 		"Local Testnet",
 		"local_testnet",
 		ChainType::Local,
-		move || polkadot_local_testnet_genesis(wasm_binary),
+		move || zaxis_local_testnet_genesis(wasm_binary),
 		vec![],
 		None,
 		Some(DEFAULT_PROTOCOL_ID),

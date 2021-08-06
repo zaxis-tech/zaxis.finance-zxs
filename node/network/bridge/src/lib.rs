@@ -1,20 +1,20 @@
 // Copyright 2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
-//! The Network Bridge Subsystem - protocol multiplexer for Polkadot.
+//! The Network Bridge Subsystem - protocol multiplexer for Z-Axis.
 
 #![deny(unused_crate_dependencies)]
 #![warn(missing_docs)]
@@ -22,18 +22,18 @@
 use futures::{prelude::*, stream::BoxStream};
 use parity_scale_codec::{Decode, Encode};
 use parking_lot::Mutex;
-use polkadot_subsystem::messages::DisputeDistributionMessage;
+use zaxis_subsystem::messages::DisputeDistributionMessage;
 use sc_network::Event as NetworkEvent;
 use sp_consensus::SyncOracle;
 
-use polkadot_node_network_protocol::{
+use zaxis_node_network_protocol::{
 	peer_set::PeerSet, v1 as protocol_v1, ObservedRole, OurView, PeerId,
 	UnifiedReputationChange as Rep, View,
 };
-use polkadot_node_subsystem_util::metrics::{self, prometheus};
-use polkadot_overseer::gen::{OverseerError, Subsystem};
-use polkadot_primitives::v1::{BlockNumber, Hash};
-use polkadot_subsystem::{
+use zaxis_node_subsystem_util::metrics::{self, prometheus};
+use zaxis_overseer::gen::{OverseerError, Subsystem};
+use zaxis_primitives::v1::{BlockNumber, Hash};
+use zaxis_subsystem::{
 	errors::{SubsystemError, SubsystemResult},
 	messages::{
 		AllMessages, CollatorProtocolMessage, NetworkBridgeEvent, NetworkBridgeMessage,
@@ -46,7 +46,7 @@ use polkadot_subsystem::{
 /// Peer set info for network initialization.
 ///
 /// To be added to [`NetworkConfiguration::extra_sets`].
-pub use polkadot_node_network_protocol::peer_set::{peer_sets_info, IsAuthority};
+pub use zaxis_node_network_protocol::peer_set::{peer_sets_info, IsAuthority};
 
 use std::{
 	collections::{hash_map, HashMap, HashSet},

@@ -1,18 +1,18 @@
 // Copyright 2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 #![deny(unused_extern_crates, missing_docs)]
 
@@ -21,10 +21,10 @@
 use codec::Encode;
 use democracy::{AccountVote, Conviction, Vote};
 use grandpa::GrandpaBlockImport;
-use polkadot_runtime::{
+use zaxis_runtime::{
 	CouncilCollective, Event, FastTrackVotingPeriod, Runtime, RuntimeApi, TechnicalCollective,
 };
-use polkadot_runtime_common::claims;
+use zaxis_runtime_common::claims;
 use sc_consensus_babe::BabeBlockImport;
 use sc_consensus_manual_seal::consensus::babe::SlotTimestampProvider;
 use sc_service::{TFullBackend, TFullClient};
@@ -37,20 +37,20 @@ use test_runner::{
 };
 
 type BlockImport<B, BE, C, SC> = BabeBlockImport<B, C, GrandpaBlockImport<BE, B, C, SC>>;
-type Block = polkadot_primitives::v1::Block;
+type Block = zaxis_primitives::v1::Block;
 type SelectChain = sc_consensus::LongestChain<TFullBackend<Block>, Block>;
 
 sc_executor::native_executor_instance!(
 	pub Executor,
-	polkadot_runtime::api::dispatch,
-	polkadot_runtime::native_version,
+	zaxis_runtime::api::dispatch,
+	zaxis_runtime::native_version,
 	(benchmarking::benchmarking::HostFunctions, SignatureVerificationOverride),
 );
 
 /// `ChainInfo` implementation.
-pub struct PolkadotChainInfo;
+pub struct Z-AxisChainInfo;
 
-impl ChainInfo for PolkadotChainInfo {
+impl ChainInfo for Z-AxisChainInfo {
 	type Block = Block;
 	type Executor = Executor;
 	type Runtime = Runtime;
@@ -62,7 +62,7 @@ impl ChainInfo for PolkadotChainInfo {
 		TFullClient<Self::Block, RuntimeApi, Self::Executor>,
 		Self::SelectChain,
 	>;
-	type SignedExtras = polkadot_runtime::SignedExtra;
+	type SignedExtras = zaxis_runtime::SignedExtra;
 	type InherentDataProviders =
 		(SlotTimestampProvider, sp_consensus_babe::inherents::InherentDataProvider);
 
@@ -98,7 +98,7 @@ where
 			TFullClient<Block, RuntimeApi, Executor>,
 			SelectChain,
 		>,
-		SignedExtras = polkadot_runtime::SignedExtra,
+		SignedExtras = zaxis_runtime::SignedExtra,
 	>,
 {
 	type DemocracyCall = democracy::Call<Runtime>;
@@ -341,7 +341,7 @@ where
 /// Runs the test-runner as a binary.
 pub fn run<F, Fut>(callback: F) -> Result<(), Box<dyn Error>>
 where
-	F: FnOnce(Node<PolkadotChainInfo>) -> Fut,
+	F: FnOnce(Node<Z-AxisChainInfo>) -> Fut,
 	Fut: Future<Output = Result<(), Box<dyn Error>>>,
 {
 	use sc_cli::{CliConfiguration, SubstrateCli};
@@ -350,7 +350,7 @@ where
 	let mut tokio_runtime = build_runtime()?;
 	let task_executor = task_executor(tokio_runtime.handle().clone());
 	// parse cli args
-	let cmd = <polkadot_cli::Cli as StructOpt>::from_args();
+	let cmd = <zaxis_cli::Cli as StructOpt>::from_args();
 	// set up logging
 	let filters = cmd.run.base.log_filters()?;
 	let logger = sc_tracing::logging::LoggerBuilder::new(filters);
@@ -358,11 +358,11 @@ where
 
 	// set up the test-runner
 	let config = cmd.create_configuration(&cmd.run.base, task_executor)?;
-	sc_cli::print_node_infos::<polkadot_cli::Cli>(&config);
+	sc_cli::print_node_infos::<zaxis_cli::Cli>(&config);
 	let (rpc, task_manager, client, pool, command_sink, backend) =
-		client_parts::<PolkadotChainInfo>(ConfigOrChainSpec::Config(config))?;
+		client_parts::<Z-AxisChainInfo>(ConfigOrChainSpec::Config(config))?;
 	let node =
-		Node::<PolkadotChainInfo>::new(rpc, task_manager, client, pool, command_sink, backend);
+		Node::<Z-AxisChainInfo>::new(rpc, task_manager, client, pool, command_sink, backend);
 
 	// hand off node.
 	tokio_runtime.block_on(callback(node))?;
@@ -373,7 +373,7 @@ where
 #[cfg(test)]
 mod tests {
 	use super::*;
-	use polkadot_service::chain_spec::polkadot_development_config;
+	use zaxis_service::chain_spec::zaxis_development_config;
 	use sp_keyring::sr25519::Keyring::Alice;
 	use sp_runtime::{traits::IdentifyAccount, MultiSigner};
 
@@ -382,13 +382,13 @@ mod tests {
 		let mut runtime = build_runtime().unwrap();
 		let task_executor = task_executor(runtime.handle().clone());
 		let (rpc, task_manager, client, pool, command_sink, backend) =
-			client_parts::<PolkadotChainInfo>(ConfigOrChainSpec::ChainSpec(
-				Box::new(polkadot_development_config().unwrap()),
+			client_parts::<Z-AxisChainInfo>(ConfigOrChainSpec::ChainSpec(
+				Box::new(zaxis_development_config().unwrap()),
 				task_executor,
 			))
 			.unwrap();
 		let node =
-			Node::<PolkadotChainInfo>::new(rpc, task_manager, client, pool, command_sink, backend);
+			Node::<Z-AxisChainInfo>::new(rpc, task_manager, client, pool, command_sink, backend);
 
 		runtime.block_on(async {
 			// seals blocks

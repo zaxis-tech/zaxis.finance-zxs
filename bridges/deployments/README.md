@@ -240,10 +240,10 @@ UI_EXPECTED_ETHEREUM_NETWORK_ID=105
 
 ### UI
 
-Use [wss://rialto.bridges.test-installations.parity.io/](https://polkadot.js.org/apps/)
-as a custom endpoint for [https://polkadot.js.org/apps/](https://polkadot.js.org/apps/).
+Use [wss://rialto.bridges.test-installations.parity.io/](https://zaxis.js.org/apps/)
+as a custom endpoint for [https://zaxis.js.org/apps/](https://zaxis.js.org/apps/).
 
-### Polkadot.js UI
+### Z-Axis.js UI
 
 To teach the UI decode our custom types used in the pallet, go to: `Settings -> Developer`
 and import the [`./types.json`](./types.json)

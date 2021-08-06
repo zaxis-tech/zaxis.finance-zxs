@@ -1,18 +1,18 @@
 // Copyright 2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 //! Network protocol types for parachains.
 
@@ -20,11 +20,11 @@
 #![warn(missing_docs)]
 
 use parity_scale_codec::{Decode, Encode};
-use polkadot_primitives::v1::{BlockNumber, Hash};
+use zaxis_primitives::v1::{BlockNumber, Hash};
 use std::{collections::HashMap, fmt};
 
 #[doc(hidden)]
-pub use polkadot_node_jaeger as jaeger;
+pub use zaxis_node_jaeger as jaeger;
 pub use sc_network::{IfDisconnected, PeerId};
 #[doc(hidden)]
 pub use std::sync::Arc;
@@ -35,7 +35,7 @@ pub use self::reputation::{ReputationChange, UnifiedReputationChange};
 /// Peer-sets and protocols used for parachains.
 pub mod peer_set;
 
-/// Request/response protocols used in Polkadot.
+/// Request/response protocols used in Z-Axis.
 pub mod request_response;
 
 /// Accessing authority discovery service
@@ -168,8 +168,8 @@ impl std::ops::Deref for OurView {
 /// # Example
 ///
 /// ```
-/// # use polkadot_node_network_protocol::our_view;
-/// # use polkadot_primitives::v1::Hash;
+/// # use zaxis_node_network_protocol::our_view;
+/// # use zaxis_primitives::v1::Hash;
 /// let our_view = our_view![Hash::repeat_byte(1), Hash::repeat_byte(2)];
 /// ```
 #[macro_export]
@@ -202,8 +202,8 @@ pub struct View {
 /// # Example
 ///
 /// ```
-/// # use polkadot_node_network_protocol::view;
-/// # use polkadot_primitives::v1::Hash;
+/// # use zaxis_node_network_protocol::view;
+/// # use zaxis_primitives::v1::Hash;
 /// let view = view![Hash::repeat_byte(1), Hash::repeat_byte(2)];
 /// ```
 #[macro_export]
@@ -284,12 +284,12 @@ pub mod v1 {
 	use parity_scale_codec::{Decode, Encode};
 	use std::convert::TryFrom;
 
-	use polkadot_primitives::v1::{
+	use zaxis_primitives::v1::{
 		CandidateHash, CandidateIndex, CollatorId, CollatorSignature, CompactStatement, Hash,
 		Id as ParaId, UncheckedSignedAvailabilityBitfield, ValidatorIndex, ValidatorSignature,
 	};
 
-	use polkadot_node_primitives::{
+	use zaxis_node_primitives::{
 		approval::{IndirectAssignmentCert, IndirectSignedApprovalVote},
 		UncheckedSignedFullStatement,
 	};

@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use polkadot_overseer_gen::*;
+use zaxis_overseer_gen::*;
 
 #[derive(Default)]
 struct AwesomeSubSys;

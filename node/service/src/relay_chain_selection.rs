@@ -1,18 +1,18 @@
 // Copyright 2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 //! A [`SelectChain`] implementation designed for relay chains.
 //!
@@ -38,12 +38,12 @@
 use super::{HeaderProvider, HeaderProviderProvider};
 use consensus_common::{Error as ConsensusError, SelectChain};
 use futures::channel::oneshot;
-use polkadot_node_subsystem_util::metrics::{self, prometheus};
-use polkadot_overseer::{AllMessages, Handle, OverseerHandle};
-use polkadot_primitives::v1::{
-	Block as PolkadotBlock, BlockNumber, Hash, Header as PolkadotHeader,
+use zaxis_node_subsystem_util::metrics::{self, prometheus};
+use zaxis_overseer::{AllMessages, Handle, OverseerHandle};
+use zaxis_primitives::v1::{
+	Block as Z-AxisBlock, BlockNumber, Hash, Header as Z-AxisHeader,
 };
-use polkadot_subsystem::messages::{
+use zaxis_subsystem::messages::{
 	ApprovalVotingMessage, ChainSelectionMessage, DisputeCoordinatorMessage,
 	HighestApprovedAncestorBlock,
 };
@@ -53,7 +53,7 @@ use std::sync::Arc;
 /// or disputes.
 ///
 /// This is a safety net that should be removed at some point in the future.
-const MAX_FINALITY_LAG: polkadot_primitives::v1::BlockNumber = 50;
+const MAX_FINALITY_LAG: zaxis_primitives::v1::BlockNumber = 50;
 
 const LOG_TARGET: &str = "parachain::chain-selection";
 
@@ -109,18 +109,18 @@ impl Metrics {
 }
 
 /// A chain-selection implementation which provides safety for relay chains.
-pub struct SelectRelayChainWithFallback<B: sc_client_api::Backend<PolkadotBlock>> {
+pub struct SelectRelayChainWithFallback<B: sc_client_api::Backend<Z-AxisBlock>> {
 	// A fallback to use in case the overseer is disconnected.
 	//
 	// This is used on relay chains which have not yet enabled
 	// parachains as well as situations where the node is offline.
-	fallback: sc_consensus::LongestChain<B, PolkadotBlock>,
+	fallback: sc_consensus::LongestChain<B, Z-AxisBlock>,
 	selection: SelectRelayChain<B, Handle>,
 }
 
 impl<B> Clone for SelectRelayChainWithFallback<B>
 where
-	B: sc_client_api::Backend<PolkadotBlock>,
+	B: sc_client_api::Backend<Z-AxisBlock>,
 	SelectRelayChain<B, Handle>: Clone,
 {
 	fn clone(&self) -> Self {
@@ -130,7 +130,7 @@ where
 
 impl<B> SelectRelayChainWithFallback<B>
 where
-	B: sc_client_api::Backend<PolkadotBlock> + 'static,
+	B: sc_client_api::Backend<Z-AxisBlock> + 'static,
 {
 	/// Create a new [`SelectRelayChainWithFallback`] wrapping the given chain backend
 	/// and a handle to the overseer.
@@ -144,7 +144,7 @@ where
 
 impl<B> SelectRelayChainWithFallback<B>
 where
-	B: sc_client_api::Backend<PolkadotBlock> + 'static,
+	B: sc_client_api::Backend<Z-AxisBlock> + 'static,
 {
 	/// Given an overseer handle, this connects the [`SelectRelayChainWithFallback`]'s
 	/// internal handle and its clones to the same overseer.
@@ -154,9 +154,9 @@ where
 }
 
 #[async_trait::async_trait]
-impl<B> SelectChain<PolkadotBlock> for SelectRelayChainWithFallback<B>
+impl<B> SelectChain<Z-AxisBlock> for SelectRelayChainWithFallback<B>
 where
-	B: sc_client_api::Backend<PolkadotBlock> + 'static,
+	B: sc_client_api::Backend<Z-AxisBlock> + 'static,
 {
 	async fn leaves(&self) -> Result<Vec<Hash>, ConsensusError> {
 		if self.selection.overseer.is_disconnected() {
@@ -166,7 +166,7 @@ where
 		self.selection.leaves().await
 	}
 
-	async fn best_chain(&self) -> Result<PolkadotHeader, ConsensusError> {
+	async fn best_chain(&self) -> Result<Z-AxisHeader, ConsensusError> {
 		if self.selection.overseer.is_disconnected() {
 			return self.fallback.best_chain().await
 		}
@@ -195,7 +195,7 @@ pub struct SelectRelayChain<B, OH> {
 
 impl<B, OH> SelectRelayChain<B, OH>
 where
-	B: HeaderProviderProvider<PolkadotBlock>,
+	B: HeaderProviderProvider<Z-AxisBlock>,
 	OH: OverseerHandleT,
 {
 	/// Create a new [`SelectRelayChain`] wrapping the given chain backend
@@ -204,7 +204,7 @@ where
 		SelectRelayChain { backend, overseer, metrics }
 	}
 
-	fn block_header(&self, hash: Hash) -> Result<PolkadotHeader, ConsensusError> {
+	fn block_header(&self, hash: Hash) -> Result<Z-AxisHeader, ConsensusError> {
 		match HeaderProvider::header(self.backend.header_provider(), hash) {
 			Ok(Some(header)) => Ok(header),
 			Ok(None) =>
@@ -231,7 +231,7 @@ where
 
 impl<B, OH> Clone for SelectRelayChain<B, OH>
 where
-	B: HeaderProviderProvider<PolkadotBlock> + Send + Sync,
+	B: HeaderProviderProvider<Z-AxisBlock> + Send + Sync,
 	OH: OverseerHandleT,
 {
 	fn clone(&self) -> Self {
@@ -269,9 +269,9 @@ impl OverseerHandleT for Handle {
 }
 
 #[async_trait::async_trait]
-impl<B, OH> SelectChain<PolkadotBlock> for SelectRelayChain<B, OH>
+impl<B, OH> SelectChain<Z-AxisBlock> for SelectRelayChain<B, OH>
 where
-	B: HeaderProviderProvider<PolkadotBlock>,
+	B: HeaderProviderProvider<Z-AxisBlock>,
 	OH: OverseerHandleT,
 {
 	/// Get all leaves of the chain, i.e. block hashes that are suitable to
@@ -290,7 +290,7 @@ where
 	}
 
 	/// Among all leaves, pick the one which is the best chain to build upon.
-	async fn best_chain(&self) -> Result<PolkadotHeader, ConsensusError> {
+	async fn best_chain(&self) -> Result<Z-AxisHeader, ConsensusError> {
 		// The Chain Selection subsystem is supposed to treat the finalized
 		// block as the best leaf in the case that there are no viable
 		// leaves, so this should not happen in practice.

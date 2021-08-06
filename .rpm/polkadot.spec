@@ -1,7 +1,7 @@
 %define debug_package %{nil}
 
-Name: polkadot
-Summary: Implementation of a https://polkadot.network node in Rust based on the Substrate framework.
+Name: zaxis
+Summary: Implementation of a https://zaxis.network node in Rust based on the Substrate framework.
 Version: @@VERSION@@
 Release: @@RELEASE@@%{?dist}
 License: GPLv3
@@ -29,13 +29,13 @@ mkdir -p %{buildroot}
 cp -a * %{buildroot}
 
 %post
-config_file="/etc/default/polkadot"
-getent group polkadot >/dev/null || groupadd -r polkadot
-getent passwd polkadot >/dev/null || \
-    useradd -r -g polkadot -d /home/polkadot -m -s /sbin/nologin \
-    -c "User account for running polkadot as a service" polkadot
+config_file="/etc/default/zaxis"
+getent group zaxis >/dev/null || groupadd -r zaxis
+getent passwd zaxis >/dev/null || \
+    useradd -r -g zaxis -d /home/zaxis -m -s /sbin/nologin \
+    -c "User account for running zaxis as a service" zaxis
 if [ ! -e "$config_file" ]; then
-    echo 'POLKADOT_CLI_ARGS=""' > /etc/default/polkadot
+    echo 'ZAXIS_CLI_ARGS=""' > /etc/default/zaxis
 fi
 exit 0
 
@@ -45,4 +45,4 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %{_bindir}/*
-/usr/lib/systemd/system/polkadot.service
+/usr/lib/systemd/system/zaxis.service

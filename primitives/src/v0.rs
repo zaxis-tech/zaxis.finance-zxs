@@ -1,18 +1,18 @@
 // Copyright 2017-2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 //! Primitives which are necessary for parachain execution from a relay-chain
 //! perspective.
@@ -32,10 +32,10 @@ use primitives::RuntimeDebug;
 use runtime_primitives::traits::{AppVerify, Block as BlockT};
 
 pub use parity_scale_codec::Compact;
-pub use polkadot_core_primitives::*;
+pub use zaxis_core_primitives::*;
 pub use runtime_primitives::traits::{BlakeTwo256, Hash as HashT, IdentifyAccount, Verify};
 
-pub use polkadot_parachain::primitives::{
+pub use zaxis_parachain::primitives::{
 	BlockData, HeadData, Id, UpwardMessage, ValidationCode, LOWEST_USER_ID,
 };
 
@@ -110,7 +110,7 @@ impl MallocSizeOf for ValidatorId {
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize, Debug, Hash, MallocSizeOf))]
 pub struct ValidatorIndex(pub u32);
 
-// We should really get https://github.com/paritytech/polkadot/issues/2403 going ..
+// We should really get https://github.com/paritytech/zaxis/issues/2403 going ..
 impl From<u32> for ValidatorIndex {
 	fn from(n: u32) -> Self {
 		ValidatorIndex(n)
@@ -386,7 +386,7 @@ impl PartialOrd for CandidateReceipt {
 impl Ord for CandidateReceipt {
 	fn cmp(&self, other: &Self) -> Ordering {
 		// TODO: compare signatures or something more sane
-		// https://github.com/paritytech/polkadot/issues/222
+		// https://github.com/paritytech/zaxis/issues/222
 		self.parachain_index
 			.cmp(&other.parachain_index)
 			.then_with(|| self.head_data.cmp(&other.head_data))
@@ -536,7 +536,7 @@ impl PartialOrd for AbridgedCandidateReceipt {
 impl Ord for AbridgedCandidateReceipt {
 	fn cmp(&self, other: &Self) -> Ordering {
 		// TODO: compare signatures or something more sane
-		// https://github.com/paritytech/polkadot/issues/222
+		// https://github.com/paritytech/zaxis/issues/222
 		self.parachain_index
 			.cmp(&other.parachain_index)
 			.then_with(|| self.head_data.cmp(&other.head_data))
@@ -859,7 +859,7 @@ pub mod id {
 	pub const PARACHAIN_HOST: ApiId = *b"parahost";
 }
 
-/// Custom validity errors used in Polkadot while validating transactions.
+/// Custom validity errors used in Z-Axis while validating transactions.
 #[repr(u8)]
 pub enum ValidityError {
 	/// The Ethereum signature is invalid.

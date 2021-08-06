@@ -1,18 +1,18 @@
 // Copyright 2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 use always_assert::never;
 use futures::{
@@ -32,7 +32,7 @@ use std::{
 
 use sp_keystore::SyncCryptoStorePtr;
 
-use polkadot_node_network_protocol::{
+use zaxis_node_network_protocol::{
 	peer_set::PeerSet,
 	request_response as req_res,
 	request_response::{
@@ -42,10 +42,10 @@ use polkadot_node_network_protocol::{
 	},
 	v1 as protocol_v1, OurView, PeerId, UnifiedReputationChange as Rep, View,
 };
-use polkadot_node_primitives::{PoV, SignedFullStatement};
-use polkadot_node_subsystem_util::metrics::{self, prometheus};
-use polkadot_primitives::v1::{CandidateReceipt, CollatorId, Hash, Id as ParaId};
-use polkadot_subsystem::{
+use zaxis_node_primitives::{PoV, SignedFullStatement};
+use zaxis_node_subsystem_util::metrics::{self, prometheus};
+use zaxis_primitives::v1::{CandidateReceipt, CollatorId, Hash, Id as ParaId};
+use zaxis_subsystem::{
 	jaeger,
 	messages::{
 		CandidateBackingMessage, CollatorProtocolMessage, IfDisconnected, NetworkBridgeEvent,
@@ -343,21 +343,21 @@ impl ActiveParas {
 		new_relay_parents: impl IntoIterator<Item = Hash>,
 	) {
 		for relay_parent in new_relay_parents {
-			let mv = polkadot_node_subsystem_util::request_validators(relay_parent, sender)
+			let mv = zaxis_node_subsystem_util::request_validators(relay_parent, sender)
 				.await
 				.await
 				.ok()
 				.map(|x| x.ok())
 				.flatten();
 
-			let mg = polkadot_node_subsystem_util::request_validator_groups(relay_parent, sender)
+			let mg = zaxis_node_subsystem_util::request_validator_groups(relay_parent, sender)
 				.await
 				.await
 				.ok()
 				.map(|x| x.ok())
 				.flatten();
 
-			let mc = polkadot_node_subsystem_util::request_availability_cores(relay_parent, sender)
+			let mc = zaxis_node_subsystem_util::request_availability_cores(relay_parent, sender)
 				.await
 				.await
 				.ok()
@@ -378,10 +378,10 @@ impl ActiveParas {
 			};
 
 			let (para_now, para_next) =
-				match polkadot_node_subsystem_util::signing_key_and_index(&validators, keystore)
+				match zaxis_node_subsystem_util::signing_key_and_index(&validators, keystore)
 					.await
 					.and_then(|(_, index)| {
-						polkadot_node_subsystem_util::find_validator_group(&groups, index)
+						zaxis_node_subsystem_util::find_validator_group(&groups, index)
 					}) {
 					Some(group) => {
 						let next_rotation_info = rotation_info.bump_rotation();

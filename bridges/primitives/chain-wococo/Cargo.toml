@@ -11,7 +11,7 @@ parity-scale-codec = { version = "2.0.0", default-features = false, features = [
 
 # Bridge Dependencies
 bp-messages = { path = "../messages", default-features = false }
-bp-polkadot-core = { path = "../polkadot-core", default-features = false }
+bp-zaxis-core = { path = "../zaxis-core", default-features = false }
 bp-rococo = { path = "../chain-rococo", default-features = false }
 bp-runtime = { path = "../runtime", default-features = false }
 
@@ -24,7 +24,7 @@ sp-std = { git = "https://github.com/paritytech/substrate", branch = "master", d
 default = ["std"]
 std = [
 	"bp-messages/std",
-	"bp-polkadot-core/std",
+	"bp-zaxis-core/std",
 	"bp-runtime/std",
 	"bp-rococo/std",
 	"parity-scale-codec/std",

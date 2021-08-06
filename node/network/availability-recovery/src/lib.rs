@@ -1,20 +1,20 @@
 // Copyright 2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
-//! Availability Recovery Subsystem of Polkadot.
+//! Availability Recovery Subsystem of Z-Axis.
 
 #![warn(missing_docs)]
 
@@ -33,20 +33,20 @@ use futures::{
 use lru::LruCache;
 use rand::seq::SliceRandom;
 
-use polkadot_erasure_coding::{branch_hash, branches, obtain_chunks_v1, recovery_threshold};
-use polkadot_node_network_protocol::{
+use zaxis_erasure_coding::{branch_hash, branches, obtain_chunks_v1, recovery_threshold};
+use zaxis_node_network_protocol::{
 	request_response::{
 		self as req_res, request::RequestError, OutgoingRequest, Recipient, Requests,
 	},
 	IfDisconnected,
 };
-use polkadot_node_primitives::{AvailableData, ErasureChunk};
-use polkadot_node_subsystem_util::request_session_info;
-use polkadot_primitives::v1::{
+use zaxis_node_primitives::{AvailableData, ErasureChunk};
+use zaxis_node_subsystem_util::request_session_info;
+use zaxis_primitives::v1::{
 	AuthorityDiscoveryId, BlakeTwo256, BlockNumber, CandidateHash, CandidateReceipt, GroupIndex,
 	Hash, HashT, SessionIndex, SessionInfo, ValidatorId, ValidatorIndex,
 };
-use polkadot_subsystem::{
+use zaxis_subsystem::{
 	errors::RecoveryError,
 	jaeger,
 	messages::{AvailabilityRecoveryMessage, AvailabilityStoreMessage, NetworkBridgeMessage},
@@ -396,7 +396,7 @@ impl RequestChunksPhase {
 			// If that fails, or a re-encoding of it doesn't match the expected erasure root,
 			// return Err(RecoveryError::Invalid)
 			if self.received_chunks.len() >= params.threshold {
-				return match polkadot_erasure_coding::reconstruct_v1(
+				return match zaxis_erasure_coding::reconstruct_v1(
 					params.validators.len(),
 					self.received_chunks.values().map(|c| (&c.chunk[..], c.index.0 as usize)),
 				) {

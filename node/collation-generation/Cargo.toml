@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-node-collation-generation"
+name = "zaxis-node-collation-generation"
 version = "0.1.0"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
@@ -7,15 +7,15 @@ edition = "2018"
 [dependencies]
 futures = "0.3.15"
 tracing = "0.1.26"
-polkadot-erasure-coding = { path = "../../erasure-coding" }
-polkadot-node-primitives = { path = "../primitives" }
-polkadot-node-subsystem = { path = "../subsystem" }
-polkadot-node-subsystem-util = { path = "../subsystem-util" }
-polkadot-primitives = { path = "../../primitives" }
+zaxis-erasure-coding = { path = "../../erasure-coding" }
+zaxis-node-primitives = { path = "../primitives" }
+zaxis-node-subsystem = { path = "../subsystem" }
+zaxis-node-subsystem-util = { path = "../subsystem-util" }
+zaxis-primitives = { path = "../../primitives" }
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "master" }
 sp-maybe-compressed-blob  = { git = "https://github.com/paritytech/substrate", branch = "master" }
 thiserror = "1.0.23"
 parity-scale-codec = { version = "2.0.0", default-features = false, features = ["bit-vec", "derive"] }
 
 [dev-dependencies]
-polkadot-node-subsystem-test-helpers = { path = "../subsystem-test-helpers" }
+zaxis-node-subsystem-test-helpers = { path = "../subsystem-test-helpers" }

@@ -42,7 +42,7 @@ pub use frame_support::{weights::constants::ExtrinsicBaseWeight, Parameter};
 pub use sp_runtime::{traits::Convert, Perbill};
 
 /// Number of extra bytes (excluding size of storage value itself) of storage proof, built at
-/// Polkadot-like chain. This mostly depends on number of entries in the storage trie.
+/// Z-Axis-like chain. This mostly depends on number of entries in the storage trie.
 /// Some reserve is reserved to account future chain growth.
 ///
 /// To compute this value, we've synced Kusama chain blocks [0; 6545733] to see if there were
@@ -63,36 +63,36 @@ pub const EXTRA_STORAGE_PROOF_SIZE: u32 = 1024;
 
 /// Maximal size (in bytes) of encoded (using `Encode::encode()`) account id.
 ///
-/// All polkadot-like chains are using same crypto.
+/// All zaxis-like chains are using same crypto.
 pub const MAXIMAL_ENCODED_ACCOUNT_ID_SIZE: u32 = 32;
 
-/// All Polkadot-like chains allow normal extrinsics to fill block up to 75%.
+/// All Z-Axis-like chains allow normal extrinsics to fill block up to 75%.
 ///
-/// This is a copy-paste from the Polkadot repo's `polkadot-runtime-common` crate.
+/// This is a copy-paste from the Z-Axis repo's `zaxis-runtime-common` crate.
 const NORMAL_DISPATCH_RATIO: Perbill = Perbill::from_percent(75);
 
-/// All Polkadot-like chains allow 2 seconds of compute with a 6 second average block time.
+/// All Z-Axis-like chains allow 2 seconds of compute with a 6 second average block time.
 ///
-/// This is a copy-paste from the Polkadot repo's `polkadot-runtime-common` crate.
+/// This is a copy-paste from the Z-Axis repo's `zaxis-runtime-common` crate.
 pub const MAXIMUM_BLOCK_WEIGHT: Weight = 2 * WEIGHT_PER_SECOND;
 
-/// All Polkadot-like chains assume that an on-initialize consumes 1% of the weight on average,
+/// All Z-Axis-like chains assume that an on-initialize consumes 1% of the weight on average,
 /// hence a single extrinsic will not be allowed to consume more than `AvailableBlockRatio - 1%`.
 ///
-/// This is a copy-paste from the Polkadot repo's `polkadot-runtime-common` crate.
+/// This is a copy-paste from the Z-Axis repo's `zaxis-runtime-common` crate.
 pub const AVERAGE_ON_INITIALIZE_RATIO: Perbill = Perbill::from_percent(1);
 
 parameter_types! {
-	/// All Polkadot-like chains have maximal block size set to 5MB.
+	/// All Z-Axis-like chains have maximal block size set to 5MB.
 	///
-	/// This is a copy-paste from the Polkadot repo's `polkadot-runtime-common` crate.
+	/// This is a copy-paste from the Z-Axis repo's `zaxis-runtime-common` crate.
 	pub BlockLength: limits::BlockLength = limits::BlockLength::max_with_normal_ratio(
 		5 * 1024 * 1024,
 		NORMAL_DISPATCH_RATIO,
 	);
-	/// All Polkadot-like chains have the same block weights.
+	/// All Z-Axis-like chains have the same block weights.
 	///
-	/// This is a copy-paste from the Polkadot repo's `polkadot-runtime-common` crate.
+	/// This is a copy-paste from the Z-Axis repo's `zaxis-runtime-common` crate.
 	pub BlockWeights: limits::BlockWeights = limits::BlockWeights::builder()
 		.base_block(BlockExecutionWeight::get())
 		.for_class(DispatchClass::all(), |weights| {
@@ -113,7 +113,7 @@ parameter_types! {
 		.build_or_panic();
 }
 
-/// Get the maximum weight (compute time) that a Normal extrinsic on the Polkadot-like chain can use.
+/// Get the maximum weight (compute time) that a Normal extrinsic on the Z-Axis-like chain can use.
 pub fn max_extrinsic_weight() -> Weight {
 	BlockWeights::get()
 		.get(DispatchClass::Normal)
@@ -121,7 +121,7 @@ pub fn max_extrinsic_weight() -> Weight {
 		.unwrap_or(Weight::MAX)
 }
 
-/// Get the maximum length in bytes that a Normal extrinsic on the Polkadot-like chain requires.
+/// Get the maximum length in bytes that a Normal extrinsic on the Z-Axis-like chain requires.
 pub fn max_extrinsic_size() -> u32 {
 	*BlockLength::get().max.get(DispatchClass::Normal)
 }
@@ -153,10 +153,10 @@ pub mod time_units {
 	pub const DAYS: BlockNumber = HOURS * 24;
 }
 
-/// Block number type used in Polkadot-like chains.
+/// Block number type used in Z-Axis-like chains.
 pub type BlockNumber = u32;
 
-/// Hash type used in Polkadot-like chains.
+/// Hash type used in Z-Axis-like chains.
 pub type Hash = <BlakeTwo256 as HasherT>::Out;
 
 /// Account Index (a.k.a. nonce).
@@ -165,31 +165,31 @@ pub type Index = u32;
 /// Hashing type.
 pub type Hashing = BlakeTwo256;
 
-/// The type of an object that can produce hashes on Polkadot-like chains.
+/// The type of an object that can produce hashes on Z-Axis-like chains.
 pub type Hasher = BlakeTwo256;
 
-/// The header type used by Polkadot-like chains.
+/// The header type used by Z-Axis-like chains.
 pub type Header = generic::Header<BlockNumber, Hasher>;
 
-/// Signature type used by Polkadot-like chains.
+/// Signature type used by Z-Axis-like chains.
 pub type Signature = MultiSignature;
 
-/// Public key of account on Polkadot-like chains.
+/// Public key of account on Z-Axis-like chains.
 pub type AccountPublic = <Signature as Verify>::Signer;
 
-/// Id of account on Polkadot-like chains.
+/// Id of account on Z-Axis-like chains.
 pub type AccountId = <AccountPublic as IdentifyAccount>::AccountId;
 
-/// Index of a transaction on the Polkadot-like chains.
+/// Index of a transaction on the Z-Axis-like chains.
 pub type Nonce = u32;
 
-/// Block type of Polkadot-like chains.
+/// Block type of Z-Axis-like chains.
 pub type Block = generic::Block<Header, OpaqueExtrinsic>;
 
-/// Polkadot-like block signed with a Justification.
+/// Z-Axis-like block signed with a Justification.
 pub type SignedBlock = generic::SignedBlock<Block>;
 
-/// The balance of an account on Polkadot-like chain.
+/// The balance of an account on Z-Axis-like chain.
 pub type Balance = u128;
 
 /// Unchecked Extrinsic type.
@@ -281,11 +281,11 @@ where
 	}
 }
 
-/// Polkadot-like chain.
+/// Z-Axis-like chain.
 #[derive(RuntimeDebug)]
-pub struct PolkadotLike;
+pub struct Z-AxisLike;
 
-impl Chain for PolkadotLike {
+impl Chain for Z-AxisLike {
 	type BlockNumber = BlockNumber;
 	type Hash = Hash;
 	type Hasher = Hasher;
@@ -331,7 +331,7 @@ mod tests {
 		let actual_size = AccountId::default().encode().len();
 		assert!(
 			actual_size <= MAXIMAL_ENCODED_ACCOUNT_ID_SIZE as usize,
-			"Actual size of encoded account id for Polkadot-like chains ({}) is larger than expected {}",
+			"Actual size of encoded account id for Z-Axis-like chains ({}) is larger than expected {}",
 			actual_size,
 			MAXIMAL_ENCODED_ACCOUNT_ID_SIZE,
 		);

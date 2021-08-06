@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-gossip-support"
+name = "zaxis-gossip-support"
 version = "0.1.0"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
@@ -9,10 +9,10 @@ sp-application-crypto = { git = "https://github.com/paritytech/substrate", branc
 sp-keystore = { git = "https://github.com/paritytech/substrate", branch = "master" }
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "master" }
 
-polkadot-node-network-protocol = { path = "../protocol" }
-polkadot-node-subsystem = { path = "../../subsystem" }
-polkadot-node-subsystem-util = { path = "../../subsystem-util" }
-polkadot-primitives = { path = "../../../primitives" }
+zaxis-node-network-protocol = { path = "../protocol" }
+zaxis-node-subsystem = { path = "../../subsystem" }
+zaxis-node-subsystem-util = { path = "../../subsystem-util" }
+zaxis-primitives = { path = "../../../primitives" }
 
 futures = "0.3.15"
 rand = { version = "0.8.3", default-features = false }
@@ -24,6 +24,6 @@ sp-core = { git = "https://github.com/paritytech/substrate", branch = "master", 
 sp-keyring = { git = "https://github.com/paritytech/substrate", branch = "master" }
 sp-consensus-babe = { git = "https://github.com/paritytech/substrate", branch = "master" }
 
-polkadot-node-subsystem-test-helpers = { path = "../../subsystem-test-helpers" }
+zaxis-node-subsystem-test-helpers = { path = "../../subsystem-test-helpers" }
 
 assert_matches = "1.4.0"

@@ -18,8 +18,8 @@ frame-support = { git = "https://github.com/paritytech/substrate", branch = "mas
 frame-system = { git = "https://github.com/paritytech/substrate", branch = "master", default-features = false }
 pallet-transaction-payment = { git = "https://github.com/paritytech/substrate", branch = "master", default-features = false }
 
-# Polkadot dependencies
-polkadot-parachain = { path = "../../parachain", default-features = false }
+# Z-Axis dependencies
+zaxis-parachain = { path = "../../parachain", default-features = false }
 
 [features]
 default = ["std"]
@@ -33,6 +33,6 @@ std = [
 	"sp-io/std",
 	"sp-runtime/std",
 	"frame-support/std",
-	"polkadot-parachain/std",
+	"zaxis-parachain/std",
 	"pallet-transaction-payment/std",
 ]

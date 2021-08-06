@@ -17,7 +17,7 @@
 //! Types that are specific to the Wococo runtime.
 
 use bp_messages::{LaneId, UnrewardedRelayersState};
-use bp_polkadot_core::PolkadotLike;
+use bp_zaxis_core::Z-AxisLike;
 use bp_runtime::Chain;
 use codec::{Decode, Encode};
 use frame_support::weights::Weight;
@@ -26,7 +26,7 @@ use frame_support::weights::Weight;
 pub type WithRococoMessagesInstance = pallet_bridge_messages::DefaultInstance;
 
 /// Unchecked Wococo extrinsic.
-pub type UncheckedExtrinsic = bp_polkadot_core::UncheckedExtrinsic<Call>;
+pub type UncheckedExtrinsic = bp_zaxis_core::UncheckedExtrinsic<Call>;
 
 /// Rococo account ownership digest from Wococo.
 ///
@@ -61,7 +61,7 @@ where
 /// All entries here (like pretty much in the entire file) must be kept in sync with Rococo
 /// `construct_runtime`, so that we maintain SCALE-compatibility.
 ///
-/// See: https://github.com/paritytech/polkadot/blob/master/runtime/rococo/src/lib.rs
+/// See: https://github.com/paritytech/zaxis/blob/master/runtime/rococo/src/lib.rs
 #[allow(clippy::large_enum_variant)]
 #[derive(Encode, Decode, Debug, PartialEq, Eq, Clone)]
 pub enum Call {
@@ -88,11 +88,11 @@ pub enum SystemCall {
 pub enum BridgeGrandpaRococoCall {
 	#[codec(index = 0)]
 	submit_finality_proof(
-		<PolkadotLike as Chain>::Header,
-		bp_header_chain::justification::GrandpaJustification<<PolkadotLike as Chain>::Header>,
+		<Z-AxisLike as Chain>::Header,
+		bp_header_chain::justification::GrandpaJustification<<Z-AxisLike as Chain>::Header>,
 	),
 	#[codec(index = 1)]
-	initialize(bp_header_chain::InitializationData<<PolkadotLike as Chain>::Header>),
+	initialize(bp_header_chain::InitializationData<<Z-AxisLike as Chain>::Header>),
 }
 
 #[derive(Encode, Decode, Debug, PartialEq, Eq, Clone)]

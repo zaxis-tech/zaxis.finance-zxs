@@ -23,15 +23,15 @@
 use bp_messages::{LaneId, MessageDetails, MessageNonce, UnrewardedRelayersState};
 use sp_std::prelude::*;
 
-pub use bp_polkadot_core::*;
+pub use bp_zaxis_core::*;
 
 /// Kusama Chain
-pub type Kusama = PolkadotLike;
+pub type Kusama = Z-AxisLike;
 
-// We use this to get the account on Kusama (target) which is derived from Polkadot's (source)
+// We use this to get the account on Kusama (target) which is derived from Z-Axis's (source)
 // account.
-pub fn derive_account_from_polkadot_id(id: bp_runtime::SourceAccount<AccountId>) -> AccountId {
-	let encoded_id = bp_runtime::derive_account_id(bp_runtime::POLKADOT_CHAIN_ID, id);
+pub fn derive_account_from_zaxis_id(id: bp_runtime::SourceAccount<AccountId>) -> AccountId {
+	let encoded_id = bp_runtime::derive_account_id(bp_runtime::ZAXIS_CHAIN_ID, id);
 	AccountIdConverter::convert(encoded_id)
 }
 

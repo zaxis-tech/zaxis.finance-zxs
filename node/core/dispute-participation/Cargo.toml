@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-node-core-dispute-participation"
+name = "zaxis-node-core-dispute-participation"
 version = "0.1.0"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
@@ -9,12 +9,12 @@ futures = "0.3.12"
 thiserror = "1.0.23"
 tracing = "0.1.26"
 
-polkadot-node-primitives = { path = "../../primitives" }
-polkadot-node-subsystem = { path = "../../subsystem" }
-polkadot-primitives = { path = "../../../primitives" }
+zaxis-node-primitives = { path = "../../primitives" }
+zaxis-node-subsystem = { path = "../../subsystem" }
+zaxis-primitives = { path = "../../../primitives" }
 
 [dev-dependencies]
 assert_matches = "1.5.0"
 parity-scale-codec = "2.0.0"
-polkadot-node-subsystem-test-helpers = { path = "../../subsystem-test-helpers"}
+zaxis-node-subsystem-test-helpers = { path = "../../subsystem-test-helpers"}
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "master" }

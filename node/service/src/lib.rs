@@ -1,20 +1,20 @@
 // Copyright 2017-2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
-//! Polkadot service. Specialized wrapper over substrate service.
+//! Z-Axis service. Specialized wrapper over substrate service.
 
 #![deny(unused_results)]
 
@@ -37,16 +37,16 @@ mod tests;
 #[cfg(feature = "full-node")]
 use {
 	grandpa::{self, FinalityProofProvider as GrandpaFinalityProofProvider},
-	polkadot_network_bridge::RequestMultiplexer,
-	polkadot_node_core_approval_voting::Config as ApprovalVotingConfig,
-	polkadot_node_core_av_store::Config as AvailabilityConfig,
-	polkadot_node_core_av_store::Error as AvailabilityError,
-	polkadot_node_core_candidate_validation::Config as CandidateValidationConfig,
-	polkadot_node_core_chain_selection::{
+	zaxis_network_bridge::RequestMultiplexer,
+	zaxis_node_core_approval_voting::Config as ApprovalVotingConfig,
+	zaxis_node_core_av_store::Config as AvailabilityConfig,
+	zaxis_node_core_av_store::Error as AvailabilityError,
+	zaxis_node_core_candidate_validation::Config as CandidateValidationConfig,
+	zaxis_node_core_chain_selection::{
 		self as chain_selection_subsystem, Config as ChainSelectionConfig,
 	},
-	polkadot_node_core_dispute_coordinator::Config as DisputeCoordinatorConfig,
-	polkadot_overseer::BlockInfo,
+	zaxis_node_core_dispute_coordinator::Config as DisputeCoordinatorConfig,
+	zaxis_overseer::BlockInfo,
 	sc_client_api::ExecutorProvider,
 	sp_trie::PrefixedMemoryDB,
 	tracing::info,
@@ -55,8 +55,8 @@ use {
 pub use sp_core::traits::SpawnNamed;
 #[cfg(feature = "full-node")]
 pub use {
-	polkadot_overseer::{Handle, Overseer, OverseerHandle},
-	polkadot_primitives::v1::ParachainHost,
+	zaxis_overseer::{Handle, Overseer, OverseerHandle},
+	zaxis_primitives::v1::ParachainHost,
 	sc_client_api::AuxStore,
 	sp_authority_discovery::AuthorityDiscoveryApi,
 	sp_blockchain::HeaderBackend,
@@ -64,7 +64,7 @@ pub use {
 };
 
 #[cfg(feature = "full-node")]
-use polkadot_subsystem::jaeger;
+use zaxis_subsystem::jaeger;
 
 use std::{sync::Arc, time::Duration};
 
@@ -75,21 +75,21 @@ use telemetry::TelemetryWorker;
 use telemetry::{Telemetry, TelemetryWorkerHandle};
 
 #[cfg(feature = "rococo-native")]
-pub use polkadot_client::RococoExecutor;
+pub use zaxis_client::RococoExecutor;
 
 #[cfg(feature = "westend-native")]
-pub use polkadot_client::WestendExecutor;
+pub use zaxis_client::WestendExecutor;
 
 #[cfg(feature = "kusama-native")]
-pub use polkadot_client::KusamaExecutor;
+pub use zaxis_client::KusamaExecutor;
 
-pub use chain_spec::{KusamaChainSpec, PolkadotChainSpec, RococoChainSpec, WestendChainSpec};
+pub use chain_spec::{KusamaChainSpec, Z-AxisChainSpec, RococoChainSpec, WestendChainSpec};
 pub use consensus_common::{block_validation::Chain, Proposal, SelectChain};
-pub use polkadot_client::{
+pub use zaxis_client::{
 	AbstractClient, Client, ClientHandle, ExecuteWithClient, FullBackend, FullClient,
-	PolkadotExecutor, RuntimeApiCollection,
+	Z-AxisExecutor, RuntimeApiCollection,
 };
-pub use polkadot_primitives::v1::{Block, BlockId, CollatorPair, Hash, Id as ParaId};
+pub use zaxis_primitives::v1::{Block, BlockId, CollatorPair, Hash, Id as ParaId};
 pub use sc_client_api::{Backend, CallExecutor, ExecutionStrategy};
 pub use sc_consensus::{BlockImport, LongestChain};
 pub use sc_executor::NativeExecutionDispatch;
@@ -110,7 +110,7 @@ pub use sp_runtime::{
 
 #[cfg(feature = "kusama-native")]
 pub use kusama_runtime;
-pub use polkadot_runtime;
+pub use zaxis_runtime;
 #[cfg(feature = "rococo-native")]
 pub use rococo_runtime;
 #[cfg(feature = "westend-native")]
@@ -205,7 +205,7 @@ pub enum Error {
 	Consensus(#[from] consensus_common::Error),
 
 	#[error("Failed to create an overseer")]
-	Overseer(#[from] polkadot_overseer::SubsystemError),
+	Overseer(#[from] zaxis_overseer::SubsystemError),
 
 	#[error(transparent)]
 	Prometheus(#[from] prometheus_endpoint::PrometheusError),
@@ -214,7 +214,7 @@ pub enum Error {
 	Telemetry(#[from] telemetry::Error),
 
 	#[error(transparent)]
-	Jaeger(#[from] polkadot_subsystem::jaeger::JaegerError),
+	Jaeger(#[from] zaxis_subsystem::jaeger::JaegerError),
 
 	#[cfg(feature = "full-node")]
 	#[error(transparent)]
@@ -264,10 +264,10 @@ impl IdentifyVariant for Box<dyn ChainSpec> {
 	}
 }
 
-// If we're using prometheus, use a registry with a prefix of `polkadot`.
+// If we're using prometheus, use a registry with a prefix of `zaxis`.
 fn set_prometheus_registry(config: &mut Configuration) -> Result<(), Error> {
 	if let Some(PrometheusConfig { registry, .. }) = config.prometheus_config.as_mut() {
-		*registry = Registry::new_custom(Some("polkadot".into()), None)?;
+		*registry = Registry::new_custom(Some("zaxis".into()), None)?;
 	}
 
 	Ok(())
@@ -385,7 +385,7 @@ where
 	let select_chain = relay_chain_selection::SelectRelayChainWithFallback::new(
 		backend.clone(),
 		Handle::new_disconnected(),
-		polkadot_node_subsystem_util::metrics::Metrics::register(config.prometheus_registry())?,
+		zaxis_node_subsystem_util::metrics::Metrics::register(config.prometheus_registry())?,
 	);
 
 	let transaction_pool = sc_transaction_pool::BasicPool::new_full(
@@ -465,33 +465,33 @@ where
 		let chain_spec = config.chain_spec.cloned_box();
 
 		move |deny_unsafe,
-		      subscription_executor: polkadot_rpc::SubscriptionTaskExecutor|
-		      -> Result<polkadot_rpc::RpcExtension, service::Error> {
-			let deps = polkadot_rpc::FullDeps {
+		      subscription_executor: zaxis_rpc::SubscriptionTaskExecutor|
+		      -> Result<zaxis_rpc::RpcExtension, service::Error> {
+			let deps = zaxis_rpc::FullDeps {
 				client: client.clone(),
 				pool: transaction_pool.clone(),
 				select_chain: select_chain.clone(),
 				chain_spec: chain_spec.cloned_box(),
 				deny_unsafe,
-				babe: polkadot_rpc::BabeDeps {
+				babe: zaxis_rpc::BabeDeps {
 					babe_config: babe_config.clone(),
 					shared_epoch_changes: shared_epoch_changes.clone(),
 					keystore: keystore.clone(),
 				},
-				grandpa: polkadot_rpc::GrandpaDeps {
+				grandpa: zaxis_rpc::GrandpaDeps {
 					shared_voter_state: shared_voter_state.clone(),
 					shared_authority_set: shared_authority_set.clone(),
 					justification_stream: justification_stream.clone(),
 					subscription_executor: subscription_executor.clone(),
 					finality_provider: finality_proof_provider.clone(),
 				},
-				beefy: polkadot_rpc::BeefyDeps {
+				beefy: zaxis_rpc::BeefyDeps {
 					beefy_commitment_stream: beefy_commitment_stream.clone(),
 					subscription_executor,
 				},
 			};
 
-			polkadot_rpc::create_full(deps).map_err(Into::into)
+			zaxis_rpc::create_full(deps).map_err(Into::into)
 		}
 	};
 
@@ -666,7 +666,7 @@ where
 	let shared_voter_state = rpc_setup;
 	let auth_disc_publish_non_global_ips = config.network.allow_non_globals_in_dht;
 
-	// Note: GrandPa is pushed before the Polkadot-specific protocols. This doesn't change
+	// Note: GrandPa is pushed before the Z-Axis-specific protocols. This doesn't change
 	// anything in terms of behaviour, but makes the logs more consistent with the other
 	// Substrate nodes.
 	config.network.extra_sets.push(grandpa::grandpa_peers_set_config());
@@ -676,7 +676,7 @@ where
 	}
 
 	{
-		use polkadot_network_bridge::{peer_sets_info, IsAuthority};
+		use zaxis_network_bridge::{peer_sets_info, IsAuthority};
 		let is_authority = if role.is_authority() { IsAuthority::Yes } else { IsAuthority::No };
 		config.network.extra_sets.extend(peer_sets_info(is_authority));
 	}
@@ -843,7 +843,7 @@ where
 			Box::pin(async move {
 				use futures::{pin_mut, select, FutureExt};
 
-				let forward = polkadot_overseer::forward_events(overseer_client, handle_clone);
+				let forward = zaxis_overseer::forward_events(overseer_client, handle_clone);
 
 				let forward = forward.fuse();
 				let overseer_fut = overseer.run().fuse();
@@ -858,8 +858,8 @@ where
 				}
 			}),
 		);
-		// we should remove this check before we deploy parachains on polkadot
-		// TODO: https://github.com/paritytech/polkadot/issues/3326
+		// we should remove this check before we deploy parachains on zaxis
+		// TODO: https://github.com/paritytech/zaxis/issues/3326
 		let should_connect_overseer = chain_spec.is_kusama() ||
 			chain_spec.is_westend() ||
 			chain_spec.is_rococo() ||
@@ -903,7 +903,7 @@ where
 				let client_clone = client_clone.clone();
 				let overseer_handle = overseer_handle.clone();
 				async move {
-					let parachain = polkadot_node_core_parachains_inherent::ParachainsInherentDataProvider::create(
+					let parachain = zaxis_node_core_parachains_inherent::ParachainsInherentDataProvider::create(
 						&*client_clone,
 						overseer_handle,
 						parent,
@@ -1159,14 +1159,14 @@ where
 		);
 	}
 
-	let light_deps = polkadot_rpc::LightDeps {
+	let light_deps = zaxis_rpc::LightDeps {
 		remote_blockchain: backend.remote_blockchain(),
 		fetcher: on_demand.clone(),
 		client: client.clone(),
 		pool: transaction_pool.clone(),
 	};
 
-	let rpc_extensions = polkadot_rpc::create_light(light_deps);
+	let rpc_extensions = zaxis_rpc::create_light(light_deps);
 
 	let rpc_handlers = service::spawn_tasks(service::SpawnTasksParams {
 		on_demand: Some(on_demand),
@@ -1230,8 +1230,8 @@ pub fn new_chain_ops(
 	}
 
 	let service::PartialComponents { client, backend, import_queue, task_manager, .. } =
-		new_partial::<polkadot_runtime::RuntimeApi, PolkadotExecutor>(config, jaeger_agent, None)?;
-	Ok((Arc::new(Client::Polkadot(client)), backend, import_queue, task_manager))
+		new_partial::<zaxis_runtime::RuntimeApi, Z-AxisExecutor>(config, jaeger_agent, None)?;
+	Ok((Arc::new(Client::Z-Axis(client)), backend, import_queue, task_manager))
 }
 
 /// Build a new light node.
@@ -1252,7 +1252,7 @@ pub fn build_light(config: Configuration) -> Result<(TaskManager, RpcHandlers), 
 		return new_light::<westend_runtime::RuntimeApi, WestendExecutor>(config)
 	}
 
-	new_light::<polkadot_runtime::RuntimeApi, PolkadotExecutor>(config)
+	new_light::<zaxis_runtime::RuntimeApi, Z-AxisExecutor>(config)
 }
 
 #[cfg(feature = "full-node")]
@@ -1310,7 +1310,7 @@ pub fn build_full(
 		.map(|full| full.with_client(Client::Westend))
 	}
 
-	new_full::<polkadot_runtime::RuntimeApi, PolkadotExecutor, _>(
+	new_full::<zaxis_runtime::RuntimeApi, Z-AxisExecutor, _>(
 		config,
 		is_collator,
 		grandpa_pause,
@@ -1320,5 +1320,5 @@ pub fn build_full(
 		None,
 		overseer_gen,
 	)
-	.map(|full| full.with_client(Client::Polkadot))
+	.map(|full| full.with_client(Client::Z-Axis))
 }

@@ -1,18 +1,18 @@
 // Copyright 2017-2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 //! `V1` Primitives.
 
@@ -29,14 +29,14 @@ use sp_arithmetic::traits::{BaseArithmetic, Saturating};
 pub use runtime_primitives::traits::{BlakeTwo256, Hash as HashT};
 
 // Export some core primitives.
-pub use polkadot_core_primitives::v1::{
+pub use zaxis_core_primitives::v1::{
 	AccountId, AccountIndex, AccountPublic, Balance, Block, BlockId, BlockNumber, CandidateHash,
 	ChainId, DownwardMessage, Hash, Header, InboundDownwardMessage, InboundHrmpMessage, Moment,
 	Nonce, OutboundHrmpMessage, Remark, Signature, UncheckedExtrinsic,
 };
 
-// Export some polkadot-parachain primitives
-pub use polkadot_parachain::primitives::{
+// Export some zaxis-parachain primitives
+pub use zaxis_parachain::primitives::{
 	HeadData, HrmpChannelId, Id, UpwardMessage, ValidationCode, ValidationCodeHash,
 	LOWEST_PUBLIC_ID, LOWEST_USER_ID,
 };
@@ -167,7 +167,7 @@ pub mod well_known_keys {
 
 	/// The MQC head for the downward message queue of the given para. See more in the `Dmp` module.
 	///
-	/// The storage entry stores a `Hash`. This is polkadot hash which is at the moment
+	/// The storage entry stores a `Hash`. This is zaxis hash which is at the moment
 	/// `blake2b-256`.
 	pub fn dmq_mqc_head(para_id: Id) -> Vec<u8> {
 		let prefix = hex!["63f78c98723ddc9073523ef3beefda0c4d7fefc408aac59dbfe80a72ac8e3ce5"];
@@ -453,7 +453,7 @@ impl PartialOrd for CommittedCandidateReceipt {
 impl Ord for CommittedCandidateReceipt {
 	fn cmp(&self, other: &Self) -> sp_std::cmp::Ordering {
 		// TODO: compare signatures or something more sane
-		// https://github.com/paritytech/polkadot/issues/222
+		// https://github.com/paritytech/zaxis/issues/222
 		self.descriptor()
 			.para_id
 			.cmp(&other.descriptor().para_id)
@@ -992,7 +992,7 @@ sp_api::decl_runtime_apis! {
 	}
 }
 
-/// Custom validity errors used in Polkadot while validating transactions.
+/// Custom validity errors used in Z-Axis while validating transactions.
 #[repr(u8)]
 pub enum ValidityError {
 	/// The Ethereum signature is invalid.
@@ -1103,10 +1103,10 @@ pub enum UpgradeGoAhead {
 	GoAhead,
 }
 
-/// Consensus engine id for polkadot v1 consensus engine.
-pub const POLKADOT_ENGINE_ID: runtime_primitives::ConsensusEngineId = *b"POL1";
+/// Consensus engine id for zaxis v1 consensus engine.
+pub const ZAXIS_ENGINE_ID: runtime_primitives::ConsensusEngineId = *b"POL1";
 
-/// A consensus log item for polkadot validation. To be used with [`POLKADOT_ENGINE_ID`].
+/// A consensus log item for zaxis validation. To be used with [`ZAXIS_ENGINE_ID`].
 #[derive(Decode, Encode, Clone, PartialEq, Eq)]
 pub enum ConsensusLog {
 	/// A parachain or parathread upgraded its code.
@@ -1137,7 +1137,7 @@ impl ConsensusLog {
 		digest_item: &runtime_primitives::DigestItem<H>,
 	) -> Result<Option<Self>, parity_scale_codec::Error> {
 		match digest_item {
-			runtime_primitives::DigestItem::Consensus(id, encoded) if id == &POLKADOT_ENGINE_ID =>
+			runtime_primitives::DigestItem::Consensus(id, encoded) if id == &ZAXIS_ENGINE_ID =>
 				Ok(Some(Self::decode(&mut &encoded[..])?)),
 			_ => Ok(None),
 		}
@@ -1146,7 +1146,7 @@ impl ConsensusLog {
 
 impl<H> From<ConsensusLog> for runtime_primitives::DigestItem<H> {
 	fn from(c: ConsensusLog) -> runtime_primitives::DigestItem<H> {
-		Self::Consensus(POLKADOT_ENGINE_ID, c.encode())
+		Self::Consensus(ZAXIS_ENGINE_ID, c.encode())
 	}
 }
 

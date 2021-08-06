@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-availability-bitfield-distribution"
+name = "zaxis-availability-bitfield-distribution"
 version = "0.1.0"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
@@ -7,13 +7,13 @@ edition = "2018"
 [dependencies]
 futures = "0.3.15"
 tracing = "0.1.26"
-polkadot-primitives = { path = "../../../primitives" }
-polkadot-subsystem = { package = "polkadot-node-subsystem", path = "../../subsystem" }
-polkadot-node-subsystem-util = { path = "../../subsystem-util" }
-polkadot-node-network-protocol = { path = "../../network/protocol" }
+zaxis-primitives = { path = "../../../primitives" }
+zaxis-subsystem = { package = "zaxis-node-subsystem", path = "../../subsystem" }
+zaxis-node-subsystem-util = { path = "../../subsystem-util" }
+zaxis-node-network-protocol = { path = "../../network/protocol" }
 
 [dev-dependencies]
-polkadot-node-subsystem-test-helpers = { path = "../../subsystem-test-helpers" }
+zaxis-node-subsystem-test-helpers = { path = "../../subsystem-test-helpers" }
 bitvec = { version = "0.20.1", default-features = false, features = ["alloc"] }
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "master" }
 sp-application-crypto = { git = "https://github.com/paritytech/substrate", branch = "master" }

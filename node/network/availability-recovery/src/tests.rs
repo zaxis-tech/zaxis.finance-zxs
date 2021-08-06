@@ -1,18 +1,18 @@
 // Copyright 2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 use std::{sync::Arc, time::Duration};
 
@@ -24,16 +24,16 @@ use parity_scale_codec::Encode;
 
 use super::*;
 
-use polkadot_erasure_coding::{branches, obtain_chunks_v1 as obtain_chunks};
-use polkadot_node_primitives::{BlockData, PoV};
-use polkadot_node_subsystem_util::TimeoutExt;
-use polkadot_primitives::v1::{AuthorityDiscoveryId, HeadData, PersistedValidationData};
-use polkadot_subsystem::{
+use zaxis_erasure_coding::{branches, obtain_chunks_v1 as obtain_chunks};
+use zaxis_node_primitives::{BlockData, PoV};
+use zaxis_node_subsystem_util::TimeoutExt;
+use zaxis_primitives::v1::{AuthorityDiscoveryId, HeadData, PersistedValidationData};
+use zaxis_subsystem::{
 	jaeger,
 	messages::{AllMessages, RuntimeApiMessage, RuntimeApiRequest},
 	ActivatedLeaf, LeafStatus,
 };
-use polkadot_subsystem_testhelpers as test_helpers;
+use zaxis_subsystem_testhelpers as test_helpers;
 
 type VirtualOverseer = test_helpers::TestSubsystemContextHandle<AvailabilityRecoveryMessage>;
 
@@ -42,7 +42,7 @@ fn test_harness_fast_path<T: Future<Output = VirtualOverseer>>(
 ) {
 	let _ = env_logger::builder()
 		.is_test(true)
-		.filter(Some("polkadot_availability_recovery"), log::LevelFilter::Trace)
+		.filter(Some("zaxis_availability_recovery"), log::LevelFilter::Trace)
 		.try_init();
 
 	let pool = sp_core::testing::TaskExecutor::new();
@@ -73,7 +73,7 @@ fn test_harness_chunks_only<T: Future<Output = VirtualOverseer>>(
 ) {
 	let _ = env_logger::builder()
 		.is_test(true)
-		.filter(Some("polkadot_availability_recovery"), log::LevelFilter::Trace)
+		.filter(Some("zaxis_availability_recovery"), log::LevelFilter::Trace)
 		.try_init();
 
 	let pool = sp_core::testing::TaskExecutor::new();

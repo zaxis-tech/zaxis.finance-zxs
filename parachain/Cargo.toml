@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-parachain"
+name = "zaxis-parachain"
 version = "0.9.9"
 authors = ["Parity Technologies <admin@parity.io>"]
 description = "Types and utilities for creating and working with parachains"
@@ -15,7 +15,7 @@ sp-std = { git = "https://github.com/paritytech/substrate", branch = "master", d
 sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "master", default-features = false }
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "master", default-features = false }
 frame-support = { git = "https://github.com/paritytech/substrate", branch = "master", default-features = false }
-polkadot-core-primitives = { path = "../core-primitives", default-features = false }
+zaxis-core-primitives = { path = "../core-primitives", default-features = false }
 derive_more = "0.99.11"
 
 # all optional crates.
@@ -31,6 +31,6 @@ std = [
 	"sp-runtime/std",
 	"sp-core/std",
 	"parity-util-mem",
-	"polkadot-core-primitives/std",
+	"zaxis-core-primitives/std",
 	"frame-support/std",
 ]

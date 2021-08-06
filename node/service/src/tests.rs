@@ -1,27 +1,27 @@
 // Copyright 2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 use super::{relay_chain_selection::*, *};
 
 use futures::channel::oneshot::Receiver;
-use polkadot_node_primitives::approval::{VRFOutput, VRFProof};
-use polkadot_node_subsystem_test_helpers as test_helpers;
-use polkadot_node_subsystem_util::TimeoutExt;
-use polkadot_subsystem::messages::{AllMessages, BlockDescription};
-use polkadot_test_client::Sr25519Keyring;
+use zaxis_node_primitives::approval::{VRFOutput, VRFProof};
+use zaxis_node_subsystem_test_helpers as test_helpers;
+use zaxis_node_subsystem_util::TimeoutExt;
+use zaxis_subsystem::messages::{AllMessages, BlockDescription};
+use zaxis_test_client::Sr25519Keyring;
 use sp_consensus_babe::{
 	digests::{CompatibleDigestItem, PreDigest, SecondaryVRFPreDigest},
 	Transcript,
@@ -37,14 +37,14 @@ use std::{sync::Arc, time::Duration};
 
 use consensus_common::SelectChain;
 use futures::{channel::oneshot, prelude::*};
-use polkadot_primitives::v1::{Block, BlockNumber, Hash, Header};
-use polkadot_subsystem::messages::{
+use zaxis_primitives::v1::{Block, BlockNumber, Hash, Header};
+use zaxis_subsystem::messages::{
 	ApprovalVotingMessage, ChainSelectionMessage, DisputeCoordinatorMessage,
 	HighestApprovedAncestorBlock,
 };
 
-use polkadot_node_subsystem_test_helpers::TestSubsystemSender;
-use polkadot_overseer::{SubsystemContext, SubsystemSender};
+use zaxis_node_subsystem_test_helpers::TestSubsystemSender;
+use zaxis_overseer::{SubsystemContext, SubsystemSender};
 
 type VirtualOverseer = test_helpers::TestSubsystemContextHandle<ApprovalVotingMessage>;
 

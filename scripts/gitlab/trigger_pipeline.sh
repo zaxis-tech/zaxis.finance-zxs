@@ -28,7 +28,7 @@ OPTIONS
                                 E.g.: v4
 
     -u, --upstream-project      Triggering project.
-                                E.g.: polkadot
+                                E.g.: zaxis
 
     -r, --upstream-ref          The branch or tag name for which project is built.
                                 E.g.: master
@@ -65,7 +65,7 @@ EXAMPLES
 
   Local test example. You need to set the 2 vars before running: TR_TOKEN and PERS_TOKEN
   ${SCRIPT_NAME} --simnet-version=v4 \\
-                 --upstream-project=polkadot \\
+                 --upstream-project=zaxis \\
                  --upstream-ref=master \\
                  --image-name=docker.io/paritypr/synth-wave \\
                  --image-tag=master \\

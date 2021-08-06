@@ -1,18 +1,18 @@
 // Copyright 2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 //! Integration test that ensures that we can build and include parachain
 //! blocks of the adder parachain.
@@ -23,7 +23,7 @@ const PUPPET_EXE: &str = env!("CARGO_BIN_EXE_adder_collator_puppet_worker");
 #[substrate_test_utils::test]
 async fn collating_using_adder_collator(task_executor: sc_service::TaskExecutor) {
 	use futures::join;
-	use polkadot_primitives::v1::Id as ParaId;
+	use zaxis_primitives::v1::Id as ParaId;
 	use sp_keyring::AccountKeyring::*;
 
 	let mut builder = sc_cli::LoggerBuilder::new("");
@@ -33,7 +33,7 @@ async fn collating_using_adder_collator(task_executor: sc_service::TaskExecutor)
 	let para_id = ParaId::from(100);
 
 	// start alice
-	let alice = polkadot_test_service::run_validator_node(
+	let alice = zaxis_test_service::run_validator_node(
 		task_executor.clone(),
 		Alice,
 		|| {},
@@ -42,7 +42,7 @@ async fn collating_using_adder_collator(task_executor: sc_service::TaskExecutor)
 	);
 
 	// start bob
-	let bob = polkadot_test_service::run_validator_node(
+	let bob = zaxis_test_service::run_validator_node(
 		task_executor.clone(),
 		Bob,
 		|| {},
@@ -59,7 +59,7 @@ async fn collating_using_adder_collator(task_executor: sc_service::TaskExecutor)
 		.unwrap();
 
 	// run the collator node
-	let mut charlie = polkadot_test_service::run_collator_node(
+	let mut charlie = zaxis_test_service::run_collator_node(
 		task_executor.clone(),
 		Charlie,
 		|| {},

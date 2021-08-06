@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-test-service"
+name = "zaxis-test-service"
 version = "0.9.9"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
@@ -12,17 +12,17 @@ tracing = "0.1.26"
 rand = "0.8.3"
 tempfile = "3.2.0"
 
-# Polkadot dependencies
-polkadot-overseer = { path = "../../overseer" }
-polkadot-primitives = { path = "../../../primitives" }
-polkadot-parachain = { path = "../../../parachain" }
-polkadot-rpc = { path = "../../../rpc" }
-polkadot-runtime-common = { path = "../../../runtime/common" }
-polkadot-service = { path = "../../service" }
-polkadot-node-subsystem = { path = "../../subsystem" }
-polkadot-node-primitives = { path = "../../primitives" }
-polkadot-test-runtime = { path = "../../../runtime/test-runtime" }
-polkadot-runtime-parachains = { path = "../../../runtime/parachains" }
+# Z-Axis dependencies
+zaxis-overseer = { path = "../../overseer" }
+zaxis-primitives = { path = "../../../primitives" }
+zaxis-parachain = { path = "../../../parachain" }
+zaxis-rpc = { path = "../../../rpc" }
+zaxis-runtime-common = { path = "../../../runtime/common" }
+zaxis-service = { path = "../../service" }
+zaxis-node-subsystem = { path = "../../subsystem" }
+zaxis-node-primitives = { path = "../../primitives" }
+zaxis-test-runtime = { path = "../../../runtime/test-runtime" }
+zaxis-runtime-parachains = { path = "../../../runtime/parachains" }
 
 # Substrate dependencies
 sp-authority-discovery = { git = "https://github.com/paritytech/substrate", branch = "master" }

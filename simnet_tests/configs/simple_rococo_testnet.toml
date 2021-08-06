@@ -2,13 +2,13 @@
 timeout = 300
 
 [settings.defaults]
-command = "/usr/local/bin/polkadot"
+command = "/usr/local/bin/zaxis"
 chain-spec = "rococo-local.json"
 timeout = 300
 
 [init_nodes.chainspec]
 image = "{{get_env(name="SYNTHIMAGE") | safe }}"
-command = "/usr/local/bin/polkadot build-spec --chain rococo-local --disable-default-bootnode --raw > /cfg/rococo-local.json"
+command = "/usr/local/bin/zaxis build-spec --chain rococo-local --disable-default-bootnode --raw > /cfg/rococo-local.json"
 fetch-files = [ "/cfg/rococo-local.json" ]
 timeout = 300
 

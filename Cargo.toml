@@ -1,10 +1,10 @@
 [[bin]]
-name = "polkadot"
+name = "zaxis"
 path = "src/main.rs"
 
 [package]
-name = "polkadot"
-description = "Implementation of a https://polkadot.network node in Rust based on the Substrate framework."
+name = "zaxis"
+description = "Implementation of a https://zaxis.network node in Rust based on the Substrate framework."
 license = "GPL-3.0-only"
 version = "0.9.9"
 authors = ["Parity Technologies <admin@parity.io>"]
@@ -12,7 +12,7 @@ edition = "2018"
 readme = "README.md"
 
 [dependencies]
-polkadot-cli = { path = "cli", features = [ "kusama-native", "westend-native", "rococo-native" ]  }
+zaxis-cli = { path = "cli", features = [ "kusama-native", "westend-native", "rococo-native" ]  }
 color-eyre = { version = "0.5.11", default-features = false }
 parity-util-mem = { version = "*", default-features = false, features = ["jemalloc-global"] }
 
@@ -30,7 +30,7 @@ members = [
 	"runtime/common",
 	"runtime/common/slot_range_helper",
 	"runtime/parachains",
-	"runtime/polkadot",
+	"runtime/zaxis",
 	"runtime/kusama",
 	"runtime/rococo",
 	"runtime/westend",
@@ -83,9 +83,9 @@ members = [
 	"node/metered-channel",
 	"node/test/client",
 	"node/test/service",
-	"node/test/polkadot-simnet/common",
-	"node/test/polkadot-simnet/node",
-	"node/test/polkadot-simnet/test",
+	"node/test/zaxis-simnet/common",
+	"node/test/zaxis-simnet/node",
+	"node/test/zaxis-simnet/test",
 	"parachain/test-parachains",
 	"parachain/test-parachains/adder",
 	"parachain/test-parachains/adder/collator",
@@ -93,7 +93,7 @@ members = [
 ]
 
 # We want to be able to build the bridge relayer without pulling it (and all of its
-# dependencies into the Polkadot workspace)
+# dependencies into the Z-Axis workspace)
 exclude = ["bridges/relays/bin-substrate", "bridges/bin/rialto/runtime", "bridges/bin/millau/runtime"]
 
 [badges]
@@ -105,39 +105,39 @@ maintenance = { status = "actively-developed" }
 opt-level = 3
 
 [profile.release]
-# Polkadot runtime requires unwinding.
+# Z-Axis runtime requires unwinding.
 panic = "unwind"
 
 [features]
-runtime-benchmarks= [ "polkadot-cli/runtime-benchmarks" ]
-try-runtime = [ "polkadot-cli/try-runtime" ]
+runtime-benchmarks= [ "zaxis-cli/runtime-benchmarks" ]
+try-runtime = [ "zaxis-cli/try-runtime" ]
 
 # Configuration for building a .deb package - for use with `cargo-deb`
 [package.metadata.deb]
-name = "polkadot"
-extended-description = "Implementation of a https://polkadot.network node in Rust based on the Substrate framework."
+name = "zaxis"
+extended-description = "Implementation of a https://zaxis.network node in Rust based on the Substrate framework."
 section = "misc"
 maintainer = "martin@parity.io"
 license-file = ["LICENSE", "0"]
 # https://www.debian.org/doc/debian-policy/ch-maintainerscripts.html
 maintainer-scripts = "scripts/packaging/deb-maintainer-scripts"
 assets = [
-	["target/release/polkadot", "/usr/bin/", "755"],
-	["scripts/packaging/polkadot.service", "/lib/systemd/system/", "644"]
+	["target/release/zaxis", "/usr/bin/", "755"],
+	["scripts/packaging/zaxis.service", "/lib/systemd/system/", "644"]
 ]
 conf-files = [
-	"/etc/default/polkadot"
+	"/etc/default/zaxis"
 ]
 
 # Configuration for building an .rpm package - for use with `cargo-rpm`
 [package.metadata.rpm]
-package = "polkadot"
+package = "zaxis"
 
 [package.metadata.rpm.cargo]
 buildflags = ["--release"]
 
 [package.metadata.rpm.targets]
-polkadot = { path = "/usr/bin/polkadot" }
+zaxis = { path = "/usr/bin/zaxis" }
 
 [package.metadata.rpm.files]
-"../scripts/packaging/polkadot.service" = { path = "/usr/lib/systemd/system/polkadot.service", mode = "644" }
+"../scripts/packaging/zaxis.service" = { path = "/usr/lib/systemd/system/zaxis.service", mode = "644" }

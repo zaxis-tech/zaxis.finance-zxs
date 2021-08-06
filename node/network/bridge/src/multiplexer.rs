@@ -1,18 +1,18 @@
 // Copyright 2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 use std::{pin::Pin, unreachable};
 
@@ -27,10 +27,10 @@ use parity_scale_codec::{Decode, Error as DecodingError};
 
 use sc_network::{config as network, PeerId};
 
-use polkadot_node_network_protocol::request_response::{
+use zaxis_node_network_protocol::request_response::{
 	request::IncomingRequest, v1, Protocol, RequestResponseConfig,
 };
-use polkadot_overseer::AllMessages;
+use zaxis_overseer::AllMessages;
 
 /// Multiplex incoming network requests.
 ///
@@ -39,7 +39,7 @@ use polkadot_overseer::AllMessages;
 ///
 /// The resulting stream will end once any of its input ends.
 ///
-// TODO: Get rid of this: <https://github.com/paritytech/polkadot/issues/2842>
+// TODO: Get rid of this: <https://github.com/paritytech/zaxis/issues/2842>
 pub struct RequestMultiplexer {
 	receivers: Vec<(Protocol, mpsc::Receiver<network::IncomingRequest>)>,
 	statement_fetching: Option<mpsc::Receiver<network::IncomingRequest>>,
@@ -70,7 +70,7 @@ impl RequestMultiplexer {
 			})
 			.unzip();
 
-		// Ok this code is ugly as hell, it is also a hack, see https://github.com/paritytech/polkadot/issues/2842.
+		// Ok this code is ugly as hell, it is also a hack, see https://github.com/paritytech/zaxis/issues/2842.
 		// But it works and is executed on startup so, if anything is wrong here it will be noticed immediately.
 		let index = receivers
 			.iter()

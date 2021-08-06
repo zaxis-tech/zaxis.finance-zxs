@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-dispute-distribution"
+name = "zaxis-dispute-distribution"
 version = "0.1.0"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
@@ -8,13 +8,13 @@ edition = "2018"
 futures = "0.3.15"
 tracing = "0.1.26"
 parity-scale-codec = { version = "2.0.0", features = ["std"]  }
-polkadot-primitives = { path = "../../../primitives" }
-polkadot-erasure-coding = { path = "../../../erasure-coding" }
-polkadot-subsystem = { package = "polkadot-node-subsystem", path = "../../subsystem" }
-polkadot-node-network-protocol = { path = "../../network/protocol" }
-polkadot-node-subsystem-util = { path = "../../subsystem-util" }
-polkadot-node-primitives = { path = "../../primitives" }
-polkadot-node-core-runtime-api = { path = "../../core/runtime-api" }
+zaxis-primitives = { path = "../../../primitives" }
+zaxis-erasure-coding = { path = "../../../erasure-coding" }
+zaxis-subsystem = { package = "zaxis-node-subsystem", path = "../../subsystem" }
+zaxis-node-network-protocol = { path = "../../network/protocol" }
+zaxis-node-subsystem-util = { path = "../../subsystem-util" }
+zaxis-node-primitives = { path = "../../primitives" }
+zaxis-node-core-runtime-api = { path = "../../core/runtime-api" }
 sc-network = { git = "https://github.com/paritytech/substrate", branch = "master" }
 sp-application-crypto = { git = "https://github.com/paritytech/substrate", branch = "master" }
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "master", features = ["std"]  }
@@ -25,7 +25,7 @@ lru = "0.6.5"
 
 [dev-dependencies]
 async-trait = "0.1.42"
-polkadot-subsystem-testhelpers = { package = "polkadot-node-subsystem-test-helpers", path = "../../subsystem-test-helpers" }
+zaxis-subsystem-testhelpers = { package = "zaxis-node-subsystem-test-helpers", path = "../../subsystem-test-helpers" }
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "master", features = ["std"] }
 sp-keyring = { git = "https://github.com/paritytech/substrate", branch = "master" }
 sp-tracing = { git = "https://github.com/paritytech/substrate", branch = "master" }

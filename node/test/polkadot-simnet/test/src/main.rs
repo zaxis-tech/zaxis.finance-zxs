@@ -1,23 +1,23 @@
 // Copyright 2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
-//! Attempts to upgrade the polkadot runtime, in a Simnet environment
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
+//! Attempts to upgrade the zaxis runtime, in a Simnet environment
 use std::{error::Error, str::FromStr};
 
-use polkadot_runtime::Event;
-use polkadot_simnet::{dispatch_with_root, run};
+use zaxis_runtime::Event;
+use zaxis_simnet::{dispatch_with_root, run};
 use sc_client_api::{CallExecutor, ExecutorProvider};
 use sp_blockchain::HeaderBackend;
 use sp_core::crypto::AccountId32;
@@ -31,8 +31,8 @@ fn main() -> Result<(), Box<dyn Error>> {
 			.runtime_version(&BlockId::Hash(node.client().info().best_hash))?
 			.spec_version;
 
-		let wasm_binary = polkadot_runtime::WASM_BINARY
-			.ok_or("Polkadot development wasm not available")?
+		let wasm_binary = zaxis_runtime::WASM_BINARY
+			.ok_or("Z-Axis development wasm not available")?
 			.to_vec();
 		// upgrade runtime.
 		dispatch_with_root(system::Call::set_code(wasm_binary), &node).await?;
@@ -70,7 +70,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 		let (from, dest, balance) = (
 			AccountId32::from_str("15j4dg5GzsL1bw2U2AWgeyAk6QTxq43V7ZPbXdAmbVLjvDCK")?,
 			AccountId32::from_str("1rvXMZpAj9nKLQkPFCymyH7Fg3ZyKJhJbrc7UtHbTVhJm1A")?,
-			10_000_000_000_000, // 10 dots
+			10_000_000_000_000, // 10 zxss
 		);
 
 		// post upgrade tests, a simple balance transfer
