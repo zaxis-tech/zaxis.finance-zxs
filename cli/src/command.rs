@@ -1,18 +1,18 @@
 // Copyright 2017-2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 use crate::cli::{Cli, Subcommand};
 use futures::future::TryFutureExt;
@@ -23,7 +23,7 @@ use service::{self, IdentifyVariant};
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
 	#[error(transparent)]
-	PolkadotService(#[from] service::Error),
+	Z-AxisService(#[from] service::Error),
 
 	#[error(transparent)]
 	SubstrateCli(#[from] sc_cli::Error),
@@ -52,7 +52,7 @@ fn get_exec_name() -> Option<String> {
 
 impl SubstrateCli for Cli {
 	fn impl_name() -> String {
-		"Parity Polkadot".into()
+		"Parity Z-Axis".into()
 	}
 
 	fn impl_version() -> String {
@@ -68,7 +68,7 @@ impl SubstrateCli for Cli {
 	}
 
 	fn support_url() -> String {
-		"https://github.com/paritytech/polkadot/issues/new".into()
+		"https://github.com/paritytech/zaxis/issues/new".into()
 	}
 
 	fn copyright_start_year() -> i32 {
@@ -76,17 +76,17 @@ impl SubstrateCli for Cli {
 	}
 
 	fn executable_name() -> String {
-		"polkadot".into()
+		"zaxis".into()
 	}
 
 	fn load_spec(&self, id: &str) -> std::result::Result<Box<dyn sc_service::ChainSpec>, String> {
 		let id = if id == "" {
 			let n = get_exec_name().unwrap_or_default();
-			["polkadot", "kusama", "westend", "rococo"]
+			["zaxis", "kusama", "westend", "rococo"]
 				.iter()
 				.cloned()
 				.find(|&chain| n.starts_with(chain))
-				.unwrap_or("polkadot")
+				.unwrap_or("zaxis")
 		} else {
 			id
 		};
@@ -101,10 +101,10 @@ impl SubstrateCli for Cli {
 			#[cfg(not(feature = "kusama-native"))]
 			name if name.starts_with("kusama-") && !name.ends_with(".json") =>
 				Err(format!("`{}` only supported with `kusama-native` feature enabled.", name))?,
-			"polkadot" => Box::new(service::chain_spec::polkadot_config()?),
-			"polkadot-dev" | "dev" => Box::new(service::chain_spec::polkadot_development_config()?),
-			"polkadot-local" => Box::new(service::chain_spec::polkadot_local_testnet_config()?),
-			"polkadot-staging" => Box::new(service::chain_spec::polkadot_staging_testnet_config()?),
+			"zaxis" => Box::new(service::chain_spec::zaxis_config()?),
+			"zaxis-dev" | "dev" => Box::new(service::chain_spec::zaxis_development_config()?),
+			"zaxis-local" => Box::new(service::chain_spec::zaxis_local_testnet_config()?),
+			"zaxis-staging" => Box::new(service::chain_spec::zaxis_staging_testnet_config()?),
 			"rococo" => Box::new(service::chain_spec::rococo_config()?),
 			#[cfg(feature = "rococo-native")]
 			"rococo-dev" => Box::new(service::chain_spec::rococo_development_config()?),
@@ -136,7 +136,7 @@ impl SubstrateCli for Cli {
 			path => {
 				let path = std::path::PathBuf::from(path);
 
-				let chain_spec = Box::new(service::PolkadotChainSpec::from_json_file(path.clone())?)
+				let chain_spec = Box::new(service::Z-AxisChainSpec::from_json_file(path.clone())?)
 					as Box<dyn service::ChainSpec>;
 
 				// When `force_*` is given or the file name starts with the name of one of the known chains,
@@ -177,7 +177,7 @@ impl SubstrateCli for Cli {
 		)))]
 		let _ = spec;
 
-		&service::polkadot_runtime::VERSION
+		&service::zaxis_runtime::VERSION
 	}
 }
 
@@ -189,14 +189,14 @@ fn set_default_ss58_version(spec: &Box<dyn service::ChainSpec>) {
 	} else if spec.is_westend() {
 		Ss58AddressFormat::SubstrateAccount
 	} else {
-		Ss58AddressFormat::PolkadotAccount
+		Ss58AddressFormat::Z-AxisAccount
 	};
 
 	sp_core::crypto::set_default_ss58_version(ss58_version);
 }
 
 const DEV_ONLY_ERROR_PATTERN: &'static str =
-	"can only use subcommand with --chain [polkadot-dev, kusama-dev, westend-dev, rococo-dev, wococo-dev], got ";
+	"can only use subcommand with --chain [zaxis-dev, kusama-dev, westend-dev, rococo-dev, wococo-dev], got ";
 
 fn ensure_dev(spec: &Box<dyn service::ChainSpec>) -> std::result::Result<(), String> {
 	if spec.is_dev() {
@@ -261,7 +261,7 @@ fn run_node_inner(cli: Cli, overseer_gen: impl service::OverseerGen) -> Result<(
 	})
 }
 
-/// Parses polkadot specific CLI arguments and run the service.
+/// Parses zaxis specific CLI arguments and run the service.
 pub fn run() -> Result<()> {
 	let cli = Cli::from_args();
 
@@ -291,7 +291,7 @@ pub fn run() -> Result<()> {
 
 			Ok(runner.async_run(|mut config| {
 				let (client, _, _, task_manager) =
-					service::new_chain_ops(&mut config, None).map_err(Error::PolkadotService)?;
+					service::new_chain_ops(&mut config, None).map_err(Error::Z-AxisService)?;
 				Ok((cmd.run(client, config.database).map_err(Error::SubstrateCli), task_manager))
 			})?)
 		},
@@ -348,7 +348,7 @@ pub fn run() -> Result<()> {
 
 			#[cfg(not(any(target_os = "android", feature = "browser")))]
 			{
-				polkadot_node_core_pvf::prepare_worker_entrypoint(&cmd.socket_path);
+				zaxis_node_core_pvf::prepare_worker_entrypoint(&cmd.socket_path);
 				Ok(())
 			}
 		},
@@ -367,7 +367,7 @@ pub fn run() -> Result<()> {
 
 			#[cfg(not(any(target_os = "android", feature = "browser")))]
 			{
-				polkadot_node_core_pvf::execute_worker_entrypoint(&cmd.socket_path);
+				zaxis_node_core_pvf::execute_worker_entrypoint(&cmd.socket_path);
 				Ok(())
 			}
 		},
@@ -394,9 +394,9 @@ pub fn run() -> Result<()> {
 				})?)
 			}
 
-			// else we assume it is polkadot.
+			// else we assume it is zaxis.
 			Ok(runner.sync_run(|config| {
-				cmd.run::<service::polkadot_runtime::Block, service::PolkadotExecutor>(config)
+				cmd.run::<service::zaxis_runtime::Block, service::Z-AxisExecutor>(config)
 					.map_err(|e| Error::SubstrateCli(e))
 			})?)
 		},
@@ -438,10 +438,10 @@ pub fn run() -> Result<()> {
 					))
 				})
 			}
-			// else we assume it is polkadot.
+			// else we assume it is zaxis.
 			runner.async_run(|config| {
 				Ok((
-					cmd.run::<service::polkadot_runtime::Block, service::PolkadotExecutor>(config)
+					cmd.run::<service::zaxis_runtime::Block, service::Z-AxisExecutor>(config)
 						.map_err(Error::SubstrateCli),
 					task_manager,
 				))

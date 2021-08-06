@@ -8,11 +8,11 @@ ARG IMAGE_NAME
 LABEL io.parity.image.authors="devops-team@parity.io" \
 	io.parity.image.vendor="Parity Technologies" \
 	io.parity.image.title="${IMAGE_NAME}" \
-	io.parity.image.description="polkadot: a platform for web3" \
-	io.parity.image.source="https://github.com/paritytech/polkadot/blob/${VCS_REF}/scripts/docker/Dockerfile" \
+	io.parity.image.description="zaxis: a platform for web3" \
+	io.parity.image.source="https://github.com/paritytech/zaxis/blob/${VCS_REF}/scripts/docker/Dockerfile" \
 	io.parity.image.revision="${VCS_REF}" \
 	io.parity.image.created="${BUILD_DATE}" \
-	io.parity.image.documentation="https://github.com/paritytech/polkadot/"
+	io.parity.image.documentation="https://github.com/paritytech/zaxis/"
 
 # show backtraces
 ENV RUST_BACKTRACE 1
@@ -31,7 +31,7 @@ RUN apt-get update && \
 	useradd -m -u 1000 -U -s /bin/sh -d /adder-collator adder-collator && \
 	mkdir -p /data /adder-collator/.local/share && \
 	chown -R adder-collator:adder-collator /data && \
-	ln -s /data /adder-collator/.local/share/polkadot
+	ln -s /data /adder-collator/.local/share/zaxis
 
 # add adder-collator binary to docker image
 COPY ./adder-collator /usr/local/bin

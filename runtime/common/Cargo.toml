@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-runtime-common"
+name = "zaxis-runtime-common"
 version = "0.9.9"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
@@ -40,9 +40,9 @@ pallet-beefy-mmr = { git = "https://github.com/paritytech/grandpa-bridge-gadget"
 frame-benchmarking = { git = "https://github.com/paritytech/substrate", branch = "master", default-features = false, optional = true }
 pallet-babe = { git = "https://github.com/paritytech/substrate", branch = "master", default-features=false, optional = true }
 
-primitives = { package = "polkadot-primitives", path = "../../primitives", default-features = false }
+primitives = { package = "zaxis-primitives", path = "../../primitives", default-features = false }
 libsecp256k1 = { version = "0.6.0", default-features = false }
-runtime-parachains = { package = "polkadot-runtime-parachains", path = "../parachains", default-features = false }
+runtime-parachains = { package = "zaxis-runtime-parachains", path = "../parachains", default-features = false }
 
 slot-range-helper = { path = "slot_range_helper", default-features = false }
 xcm = { path = "../../xcm", default-features = false }

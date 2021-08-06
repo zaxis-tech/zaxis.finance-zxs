@@ -1,25 +1,25 @@
 // Copyright 2017-2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
-//! Polkadot Client
+//! Z-Axis Client
 //!
 //! Provides the [`AbstractClient`] trait that is a super trait that combines all the traits the client implements.
 //! There is also the [`Client`] enum that combines all the different clients into one common structure.
 
-use polkadot_primitives::v1::{
+use zaxis_primitives::v1::{
 	AccountId, Balance, Block, BlockNumber, Hash, Header, Nonce, ParachainHost,
 };
 use sc_client_api::{AuxStore, Backend as BackendT, BlockchainEvents, KeyIterator, UsageProvider};
@@ -40,9 +40,9 @@ pub type FullBackend = sc_service::TFullBackend<Block>;
 pub type FullClient<RuntimeApi, Executor> = sc_service::TFullClient<Block, RuntimeApi, Executor>;
 
 native_executor_instance!(
-	pub PolkadotExecutor,
-	polkadot_runtime::api::dispatch,
-	polkadot_runtime::native_version,
+	pub Z-AxisExecutor,
+	zaxis_runtime::api::dispatch,
+	zaxis_runtime::native_version,
 	frame_benchmarking::benchmarking::HostFunctions,
 );
 
@@ -70,7 +70,7 @@ native_executor_instance!(
 	frame_benchmarking::benchmarking::HostFunctions,
 );
 
-/// A set of APIs that polkadot-like runtimes must implement.
+/// A set of APIs that zaxis-like runtimes must implement.
 pub trait RuntimeApiCollection:
 	sp_transaction_pool::runtime_api::TaggedTransactionQueue<Block>
 	+ sp_api::ApiExt<Block>
@@ -152,7 +152,7 @@ where
 
 /// Execute something with the client instance.
 ///
-/// As there exist multiple chains inside Polkadot, like Polkadot itself, Kusama, Westend etc,
+/// As there exist multiple chains inside Z-Axis, like Z-Axis itself, Kusama, Westend etc,
 /// there can exist different kinds of client types. As these client types differ in the generics
 /// that are being used, we can not easily return them from a function. For returning them from a
 /// function there exists [`Client`]. However, the problem on how to use this client instance still
@@ -175,9 +175,9 @@ pub trait ExecuteWithClient {
 		Client: AbstractClient<Block, Backend, Api = Api> + 'static;
 }
 
-/// A handle to a Polkadot client instance.
+/// A handle to a Z-Axis client instance.
 ///
-/// The Polkadot service supports multiple different runtimes (Westend, Polkadot itself, etc). As each runtime has a
+/// The Z-Axis service supports multiple different runtimes (Westend, Z-Axis itself, etc). As each runtime has a
 /// specialized client, we need to hide them behind a trait. This is this trait.
 ///
 /// When wanting to work with the inner client, you need to use `execute_with`.
@@ -197,7 +197,7 @@ macro_rules! with_client {
 		}
 	} => {
 		match $self {
-			Self::Polkadot($client) => { $( $code )* },
+			Self::Z-Axis($client) => { $( $code )* },
 			#[cfg(feature = "westend")]
 			Self::Westend($client) => { $( $code )* },
 			#[cfg(feature = "kusama")]
@@ -208,12 +208,12 @@ macro_rules! with_client {
 	}
 }
 
-/// A client instance of Polkadot.
+/// A client instance of Z-Axis.
 ///
 /// See [`ExecuteWithClient`] for more information.
 #[derive(Clone)]
 pub enum Client {
-	Polkadot(Arc<FullClient<polkadot_runtime::RuntimeApi, PolkadotExecutor>>),
+	Z-Axis(Arc<FullClient<zaxis_runtime::RuntimeApi, Z-AxisExecutor>>),
 	#[cfg(feature = "westend")]
 	Westend(Arc<FullClient<westend_runtime::RuntimeApi, WestendExecutor>>),
 	#[cfg(feature = "kusama")]

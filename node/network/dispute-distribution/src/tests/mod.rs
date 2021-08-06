@@ -1,18 +1,18 @@
 // Copyright 2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 //
 
 //! Subsystem unit tests
@@ -28,25 +28,25 @@ use futures::{
 use futures_timer::Delay;
 use parity_scale_codec::{Decode, Encode};
 
-use polkadot_node_network_protocol::{request_response::v1::DisputeRequest, PeerId};
+use zaxis_node_network_protocol::{request_response::v1::DisputeRequest, PeerId};
 use sp_keyring::Sr25519Keyring;
 
-use polkadot_node_network_protocol::{
+use zaxis_node_network_protocol::{
 	request_response::{v1::DisputeResponse, Recipient, Requests},
 	IfDisconnected,
 };
-use polkadot_node_primitives::{CandidateVotes, UncheckedDisputeMessage};
-use polkadot_primitives::v1::{
+use zaxis_node_primitives::{CandidateVotes, UncheckedDisputeMessage};
+use zaxis_primitives::v1::{
 	AuthorityDiscoveryId, CandidateHash, Hash, SessionIndex, SessionInfo,
 };
-use polkadot_subsystem::{
+use zaxis_subsystem::{
 	messages::{
 		AllMessages, DisputeCoordinatorMessage, DisputeDistributionMessage, ImportStatementsResult,
 		NetworkBridgeMessage, RuntimeApiMessage, RuntimeApiRequest,
 	},
 	ActivatedLeaf, ActiveLeavesUpdate, FromOverseer, LeafStatus, OverseerSignal, Span,
 };
-use polkadot_subsystem_testhelpers::{
+use zaxis_subsystem_testhelpers::{
 	mock::make_ferdie_keystore, subsystem_test_harness, TestSubsystemContextHandle,
 };
 

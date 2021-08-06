@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-node-core-runtime-api"
+name = "zaxis-node-core-runtime-api"
 version = "0.1.0"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
@@ -15,12 +15,12 @@ sp-authority-discovery = { git = "https://github.com/paritytech/substrate", bran
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "master" }
 sp-consensus-babe = { git = "https://github.com/paritytech/substrate", branch = "master" }
 
-polkadot-primitives = { path = "../../../primitives" }
-polkadot-subsystem = { package = "polkadot-node-subsystem", path = "../../subsystem" }
-polkadot-node-subsystem-util = { path = "../../subsystem-util" }
+zaxis-primitives = { path = "../../../primitives" }
+zaxis-subsystem = { package = "zaxis-node-subsystem", path = "../../subsystem" }
+zaxis-node-subsystem-util = { path = "../../subsystem-util" }
 
 [dev-dependencies]
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "master" }
 futures = { version = "0.3.15", features = ["thread-pool"] }
-polkadot-node-subsystem-test-helpers = { path = "../../subsystem-test-helpers" }
-polkadot-node-primitives = { path = "../../primitives" }
+zaxis-node-subsystem-test-helpers = { path = "../../subsystem-test-helpers" }
+zaxis-node-primitives = { path = "../../primitives" }

@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-node-subsystem-util"
+name = "zaxis-node-subsystem-util"
 version = "0.1.0"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
@@ -18,13 +18,13 @@ thiserror = "1.0.23"
 tracing = "0.1.26"
 lru = "0.6.5"
 
-polkadot-node-primitives = { path = "../primitives" }
-polkadot-node-subsystem = { package = "polkadot-node-subsystem", path = "../subsystem" }
-polkadot-node-jaeger = { path = "../jaeger" }
-polkadot-node-metrics = { path = "../metrics" }
-polkadot-node-network-protocol = { path = "../network/protocol" }
-polkadot-primitives = { path = "../../primitives" }
-polkadot-overseer = { path = "../overseer" }
+zaxis-node-primitives = { path = "../primitives" }
+zaxis-node-subsystem = { package = "zaxis-node-subsystem", path = "../subsystem" }
+zaxis-node-jaeger = { path = "../jaeger" }
+zaxis-node-metrics = { path = "../metrics" }
+zaxis-node-network-protocol = { path = "../network/protocol" }
+zaxis-primitives = { path = "../../primitives" }
+zaxis-overseer = { path = "../overseer" }
 metered-channel = { path = "../metered-channel"}
 
 sc-network = { git = "https://github.com/paritytech/substrate", branch = "master" }
@@ -40,4 +40,4 @@ env_logger = "0.8.4"
 futures = { version = "0.3.15", features = ["thread-pool"] }
 log = "0.4.13"
 parking_lot = "0.11.1"
-polkadot-node-subsystem-test-helpers = { path = "../subsystem-test-helpers" }
+zaxis-node-subsystem-test-helpers = { path = "../subsystem-test-helpers" }

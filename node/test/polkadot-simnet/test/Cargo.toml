@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-simnet-test"
+name = "zaxis-simnet-test"
 version = "0.1.0"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
@@ -17,6 +17,6 @@ balances = { package = "pallet-balances", git = "https://github.com/paritytech/s
 # substrate client libs
 sc-client-api = { git = "https://github.com/paritytech/substrate", branch = "master" }
 
-# polkadot deps
-polkadot-simnet = { path = "../common" }
-polkadot-runtime = { path = "../../../../runtime/polkadot" }
+# zaxis deps
+zaxis-simnet = { path = "../common" }
+zaxis-runtime = { path = "../../../../runtime/zaxis" }

@@ -1,28 +1,28 @@
 // Copyright 2017-2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 use super::{AuthorityDiscoveryApi, Block, Error, Hash, IsCollator, Registry, SpawnNamed};
-use polkadot_network_bridge::RequestMultiplexer;
-use polkadot_node_core_approval_voting::Config as ApprovalVotingConfig;
-use polkadot_node_core_av_store::Config as AvailabilityConfig;
-use polkadot_node_core_candidate_validation::Config as CandidateValidationConfig;
-use polkadot_node_core_chain_selection::Config as ChainSelectionConfig;
-use polkadot_node_core_dispute_coordinator::Config as DisputeCoordinatorConfig;
-use polkadot_overseer::{AllSubsystems, BlockInfo, Overseer, OverseerHandle};
-use polkadot_primitives::v1::ParachainHost;
+use zaxis_network_bridge::RequestMultiplexer;
+use zaxis_node_core_approval_voting::Config as ApprovalVotingConfig;
+use zaxis_node_core_av_store::Config as AvailabilityConfig;
+use zaxis_node_core_candidate_validation::Config as CandidateValidationConfig;
+use zaxis_node_core_chain_selection::Config as ChainSelectionConfig;
+use zaxis_node_core_dispute_coordinator::Config as DisputeCoordinatorConfig;
+use zaxis_overseer::{AllSubsystems, BlockInfo, Overseer, OverseerHandle};
+use zaxis_primitives::v1::ParachainHost;
 use sc_authority_discovery::Service as AuthorityDiscoveryService;
 use sc_client_api::AuxStore;
 use sc_keystore::LocalKeystore;
@@ -31,27 +31,27 @@ use sp_blockchain::HeaderBackend;
 use sp_consensus_babe::BabeApi;
 use std::sync::Arc;
 
-pub use polkadot_approval_distribution::ApprovalDistribution as ApprovalDistributionSubsystem;
-pub use polkadot_availability_bitfield_distribution::BitfieldDistribution as BitfieldDistributionSubsystem;
-pub use polkadot_availability_distribution::AvailabilityDistributionSubsystem;
-pub use polkadot_availability_recovery::AvailabilityRecoverySubsystem;
-pub use polkadot_collator_protocol::{CollatorProtocolSubsystem, ProtocolSide};
-pub use polkadot_dispute_distribution::DisputeDistributionSubsystem;
-pub use polkadot_gossip_support::GossipSupport as GossipSupportSubsystem;
-pub use polkadot_network_bridge::NetworkBridge as NetworkBridgeSubsystem;
-pub use polkadot_node_collation_generation::CollationGenerationSubsystem;
-pub use polkadot_node_core_approval_voting::ApprovalVotingSubsystem;
-pub use polkadot_node_core_av_store::AvailabilityStoreSubsystem;
-pub use polkadot_node_core_backing::CandidateBackingSubsystem;
-pub use polkadot_node_core_bitfield_signing::BitfieldSigningSubsystem;
-pub use polkadot_node_core_candidate_validation::CandidateValidationSubsystem;
-pub use polkadot_node_core_chain_api::ChainApiSubsystem;
-pub use polkadot_node_core_chain_selection::ChainSelectionSubsystem;
-pub use polkadot_node_core_dispute_coordinator::DisputeCoordinatorSubsystem;
-pub use polkadot_node_core_dispute_participation::DisputeParticipationSubsystem;
-pub use polkadot_node_core_provisioner::ProvisioningSubsystem as ProvisionerSubsystem;
-pub use polkadot_node_core_runtime_api::RuntimeApiSubsystem;
-pub use polkadot_statement_distribution::StatementDistribution as StatementDistributionSubsystem;
+pub use zaxis_approval_distribution::ApprovalDistribution as ApprovalDistributionSubsystem;
+pub use zaxis_availability_bitfield_distribution::BitfieldDistribution as BitfieldDistributionSubsystem;
+pub use zaxis_availability_distribution::AvailabilityDistributionSubsystem;
+pub use zaxis_availability_recovery::AvailabilityRecoverySubsystem;
+pub use zaxis_collator_protocol::{CollatorProtocolSubsystem, ProtocolSide};
+pub use zaxis_dispute_distribution::DisputeDistributionSubsystem;
+pub use zaxis_gossip_support::GossipSupport as GossipSupportSubsystem;
+pub use zaxis_network_bridge::NetworkBridge as NetworkBridgeSubsystem;
+pub use zaxis_node_collation_generation::CollationGenerationSubsystem;
+pub use zaxis_node_core_approval_voting::ApprovalVotingSubsystem;
+pub use zaxis_node_core_av_store::AvailabilityStoreSubsystem;
+pub use zaxis_node_core_backing::CandidateBackingSubsystem;
+pub use zaxis_node_core_bitfield_signing::BitfieldSigningSubsystem;
+pub use zaxis_node_core_candidate_validation::CandidateValidationSubsystem;
+pub use zaxis_node_core_chain_api::ChainApiSubsystem;
+pub use zaxis_node_core_chain_selection::ChainSelectionSubsystem;
+pub use zaxis_node_core_dispute_coordinator::DisputeCoordinatorSubsystem;
+pub use zaxis_node_core_dispute_participation::DisputeParticipationSubsystem;
+pub use zaxis_node_core_provisioner::ProvisioningSubsystem as ProvisionerSubsystem;
+pub use zaxis_node_core_runtime_api::RuntimeApiSubsystem;
+pub use zaxis_statement_distribution::StatementDistribution as StatementDistributionSubsystem;
 
 /// Arguments passed for overseer construction.
 pub struct OverseerGenArgs<'a, Spawner, RuntimeClient>
@@ -148,7 +148,7 @@ where
 	RuntimeClient::Api: ParachainHost<Block> + BabeApi<Block> + AuthorityDiscoveryApi<Block>,
 	Spawner: 'static + SpawnNamed + Clone + Unpin,
 {
-	use polkadot_node_subsystem_util::metrics::Metrics;
+	use zaxis_node_subsystem_util::metrics::Metrics;
 
 	let all_subsystems = AllSubsystems {
 		availability_distribution: AvailabilityDistributionSubsystem::new(

@@ -1,13 +1,13 @@
 [Unit]
-Description=Polkadot Node
+Description=Z-Axis Node
 After=network.target
-Documentation=https://github.com/paritytech/polkadot
+Documentation=https://github.com/paritytech/zaxis
 
 [Service]
-EnvironmentFile=-/etc/default/polkadot
-ExecStart=/usr/bin/polkadot $POLKADOT_CLI_ARGS
-User=polkadot
-Group=polkadot
+EnvironmentFile=-/etc/default/zaxis
+ExecStart=/usr/bin/zaxis $ZAXIS_CLI_ARGS
+User=zaxis
+Group=zaxis
 Restart=always
 RestartSec=120
 CapabilityBoundingSet=

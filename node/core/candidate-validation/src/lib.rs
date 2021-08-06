@@ -1,18 +1,18 @@
 // Copyright 2020-2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 //! The Candidate Validation subsystem.
 //!
@@ -23,13 +23,13 @@
 #![deny(unused_crate_dependencies, unused_results)]
 #![warn(missing_docs)]
 
-use polkadot_node_core_pvf::{
+use zaxis_node_core_pvf::{
 	InvalidCandidate as WasmInvalidCandidate, Pvf, ValidationError, ValidationHost,
 };
-use polkadot_node_primitives::{
+use zaxis_node_primitives::{
 	BlockData, InvalidCandidate, PoV, ValidationResult, POV_BOMB_LIMIT, VALIDATION_CODE_BOMB_LIMIT,
 };
-use polkadot_node_subsystem::{
+use zaxis_node_subsystem::{
 	errors::RuntimeApiError,
 	messages::{
 		CandidateValidationMessage, RuntimeApiMessage, RuntimeApiRequest, ValidationFailed,
@@ -37,9 +37,9 @@ use polkadot_node_subsystem::{
 	overseer, FromOverseer, OverseerSignal, SpawnedSubsystem, SubsystemContext, SubsystemError,
 	SubsystemResult,
 };
-use polkadot_node_subsystem_util::metrics::{self, prometheus};
-use polkadot_parachain::primitives::{ValidationParams, ValidationResult as WasmValidationResult};
-use polkadot_primitives::v1::{
+use zaxis_node_subsystem_util::metrics::{self, prometheus};
+use zaxis_parachain::primitives::{ValidationParams, ValidationResult as WasmValidationResult};
+use zaxis_primitives::v1::{
 	CandidateCommitments, CandidateDescriptor, Hash, OccupiedCoreAssumption,
 	PersistedValidationData, ValidationCode,
 };
@@ -107,8 +107,8 @@ where
 	Context: SubsystemContext<Message = CandidateValidationMessage>,
 	Context: overseer::SubsystemContext<Message = CandidateValidationMessage>,
 {
-	let (mut validation_host, task) = polkadot_node_core_pvf::start(
-		polkadot_node_core_pvf::Config::new(cache_path, program_path),
+	let (mut validation_host, task) = zaxis_node_core_pvf::start(
+		zaxis_node_core_pvf::Config::new(cache_path, program_path),
 	);
 	ctx.spawn_blocking("pvf-validation-host", task.boxed())?;
 
@@ -453,7 +453,7 @@ impl ValidationBackend for &'_ mut ValidationHost {
 			.execute_pvf(
 				Pvf::from_code(raw_validation_code),
 				params.encode(),
-				polkadot_node_core_pvf::Priority::Normal,
+				zaxis_node_core_pvf::Priority::Normal,
 				tx,
 			)
 			.await

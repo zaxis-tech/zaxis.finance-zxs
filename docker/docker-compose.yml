@@ -1,15 +1,15 @@
 version: '3'
 services:
-  polkadot:
+  zaxis:
     build:
       context: .
     ports:
       - "127.0.0.1:30333:30333/tcp"
       - "127.0.0.1:9933:9933/tcp"
-    image: chevdor/polkadot:latest
+    image: chevdor/zaxis:latest
     volumes:
-      - "polkadot-data:/data"
-    command: polkadot
+      - "zaxis-data:/data"
+    command: zaxis
 
 volumes:
-  polkadot-data:
+  zaxis-data:

@@ -1,20 +1,20 @@
 // Copyright 2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
-//! Polkadot test service only.
+//! Z-Axis test service only.
 
 #![warn(missing_docs)]
 
@@ -22,14 +22,14 @@ pub mod chain_spec;
 
 pub use chain_spec::*;
 use futures::future::Future;
-use polkadot_node_primitives::{CollationGenerationConfig, CollatorFn};
-use polkadot_node_subsystem::messages::{CollationGenerationMessage, CollatorProtocolMessage};
-use polkadot_overseer::Handle;
-use polkadot_primitives::v1::{Balance, CollatorPair, HeadData, Id as ParaId, ValidationCode};
-use polkadot_runtime_common::BlockHashCount;
-use polkadot_runtime_parachains::paras::ParaGenesisArgs;
-use polkadot_service::{ClientHandle, Error, ExecuteWithClient, FullClient, IsCollator, NewFull};
-use polkadot_test_runtime::{
+use zaxis_node_primitives::{CollationGenerationConfig, CollatorFn};
+use zaxis_node_subsystem::messages::{CollationGenerationMessage, CollatorProtocolMessage};
+use zaxis_overseer::Handle;
+use zaxis_primitives::v1::{Balance, CollatorPair, HeadData, Id as ParaId, ValidationCode};
+use zaxis_runtime_common::BlockHashCount;
+use zaxis_runtime_parachains::paras::ParaGenesisArgs;
+use zaxis_service::{ClientHandle, Error, ExecuteWithClient, FullClient, IsCollator, NewFull};
+use zaxis_test_runtime::{
 	ParasSudoWrapperCall, Runtime, SignedExtra, SignedPayload, SudoCall, UncheckedExtrinsic,
 	VERSION,
 };
@@ -56,16 +56,16 @@ use substrate_test_client::{
 };
 
 native_executor_instance!(
-	pub PolkadotTestExecutor,
-	polkadot_test_runtime::api::dispatch,
-	polkadot_test_runtime::native_version,
+	pub Z-AxisTestExecutor,
+	zaxis_test_runtime::api::dispatch,
+	zaxis_test_runtime::native_version,
 	frame_benchmarking::benchmarking::HostFunctions,
 );
 
 /// The client type being used by the test service.
-pub type Client = FullClient<polkadot_test_runtime::RuntimeApi, PolkadotTestExecutor>;
+pub type Client = FullClient<zaxis_test_runtime::RuntimeApi, Z-AxisTestExecutor>;
 
-pub use polkadot_service::FullBackend;
+pub use zaxis_service::FullBackend;
 
 /// Create a new full node.
 #[sc_tracing::logging::prefix_logs_with(config.network.node_name.as_str())]
@@ -74,7 +74,7 @@ pub fn new_full(
 	is_collator: IsCollator,
 	worker_program_path: Option<PathBuf>,
 ) -> Result<NewFull<Arc<Client>>, Error> {
-	polkadot_service::new_full::<polkadot_test_runtime::RuntimeApi, PolkadotTestExecutor, _>(
+	zaxis_service::new_full::<zaxis_test_runtime::RuntimeApi, Z-AxisTestExecutor, _>(
 		config,
 		is_collator,
 		None,
@@ -82,7 +82,7 @@ pub fn new_full(
 		None,
 		None,
 		worker_program_path,
-		polkadot_service::RealOverseerGen,
+		zaxis_service::RealOverseerGen,
 	)
 }
 
@@ -91,11 +91,11 @@ pub struct TestClient(pub Arc<Client>);
 
 impl ClientHandle for TestClient {
 	fn execute_with<T: ExecuteWithClient>(&self, t: T) -> T::Output {
-		T::execute_with_client::<_, _, polkadot_service::FullBackend>(t, self.0.clone())
+		T::execute_with_client::<_, _, zaxis_service::FullBackend>(t, self.0.clone())
 	}
 }
 
-/// Create a Polkadot `Configuration`.
+/// Create a Z-Axis `Configuration`.
 ///
 /// By default an in-memory socket will be used, therefore you need to provide boot
 /// nodes if you want the future node to be connected to other nodes.
@@ -113,7 +113,7 @@ pub fn node_config(
 	let root = base_path.path();
 	let role = if is_validator { Role::Authority } else { Role::Full };
 	let key_seed = key.to_seed();
-	let mut spec = polkadot_local_testnet_config();
+	let mut spec = zaxis_local_testnet_config();
 	let mut storage = spec.as_storage_builder().build_storage().expect("could not build storage");
 
 	BasicExternalities::execute_with_storage(&mut storage, storage_update_func);
@@ -138,7 +138,7 @@ pub fn node_config(
 	network_config.transport = TransportConfig::MemoryOnly;
 
 	Configuration {
-		impl_name: "polkadot-test-node".to_string(),
+		impl_name: "zaxis-test-node".to_string(),
 		impl_version: "0.1".to_string(),
 		role,
 		task_executor,
@@ -202,18 +202,18 @@ pub fn run_validator_node(
 	storage_update_func: impl Fn(),
 	boot_nodes: Vec<MultiaddrWithPeerId>,
 	worker_program_path: Option<PathBuf>,
-) -> PolkadotTestNode {
+) -> Z-AxisTestNode {
 	let config = node_config(storage_update_func, task_executor, key, boot_nodes, true);
 	let multiaddr = config.network.listen_addresses[0].clone();
 	let NewFull { task_manager, client, network, rpc_handlers, overseer_handle, .. } =
 		new_full(config, IsCollator::No, worker_program_path)
-			.expect("could not create Polkadot test service");
+			.expect("could not create Z-Axis test service");
 
 	let overseer_handle = overseer_handle.expect("test node must have an overseer handle");
 	let peer_id = network.local_peer_id().clone();
 	let addr = MultiaddrWithPeerId { multiaddr, peer_id };
 
-	PolkadotTestNode { task_manager, client, overseer_handle, addr, rpc_handlers }
+	Z-AxisTestNode { task_manager, client, overseer_handle, addr, rpc_handlers }
 }
 
 /// Run a test collator node that uses the test runtime.
@@ -227,29 +227,29 @@ pub fn run_validator_node(
 /// # Note
 ///
 /// The collator functionality still needs to be registered at the node! This can be done using
-/// [`PolkadotTestNode::register_collator`].
+/// [`Z-AxisTestNode::register_collator`].
 pub fn run_collator_node(
 	task_executor: TaskExecutor,
 	key: Sr25519Keyring,
 	storage_update_func: impl Fn(),
 	boot_nodes: Vec<MultiaddrWithPeerId>,
 	collator_pair: CollatorPair,
-) -> PolkadotTestNode {
+) -> Z-AxisTestNode {
 	let config = node_config(storage_update_func, task_executor, key, boot_nodes, false);
 	let multiaddr = config.network.listen_addresses[0].clone();
 	let NewFull { task_manager, client, network, rpc_handlers, overseer_handle, .. } =
 		new_full(config, IsCollator::Yes(collator_pair), None)
-			.expect("could not create Polkadot test service");
+			.expect("could not create Z-Axis test service");
 
 	let overseer_handle = overseer_handle.expect("test node must have an overseer handle");
 	let peer_id = network.local_peer_id().clone();
 	let addr = MultiaddrWithPeerId { multiaddr, peer_id };
 
-	PolkadotTestNode { task_manager, client, overseer_handle, addr, rpc_handlers }
+	Z-AxisTestNode { task_manager, client, overseer_handle, addr, rpc_handlers }
 }
 
-/// A Polkadot test node instance used for testing.
-pub struct PolkadotTestNode {
+/// A Z-Axis test node instance used for testing.
+pub struct Z-AxisTestNode {
 	/// `TaskManager`'s instance.
 	pub task_manager: TaskManager,
 	/// Client's instance.
@@ -262,11 +262,11 @@ pub struct PolkadotTestNode {
 	pub rpc_handlers: RpcHandlers,
 }
 
-impl PolkadotTestNode {
+impl Z-AxisTestNode {
 	/// Send an extrinsic to this node.
 	pub async fn send_extrinsic(
 		&self,
-		function: impl Into<polkadot_test_runtime::Call>,
+		function: impl Into<zaxis_test_runtime::Call>,
 		caller: Sr25519Keyring,
 	) -> Result<RpcTransactionOutput, RpcTransactionError> {
 		let extrinsic = construct_extrinsic(&*self.client, function, caller);
@@ -323,7 +323,7 @@ impl PolkadotTestNode {
 /// Construct an extrinsic that can be applied to the test runtime.
 pub fn construct_extrinsic(
 	client: &Client,
-	function: impl Into<polkadot_test_runtime::Call>,
+	function: impl Into<zaxis_test_runtime::Call>,
 	caller: Sr25519Keyring,
 ) -> UncheckedExtrinsic {
 	let function = function.into();
@@ -359,8 +359,8 @@ pub fn construct_extrinsic(
 	let signature = raw_payload.using_encoded(|e| caller.sign(e));
 	UncheckedExtrinsic::new_signed(
 		function.clone(),
-		polkadot_test_runtime::Address::Id(caller.public().into()),
-		polkadot_primitives::v0::Signature::Sr25519(signature.clone()),
+		zaxis_test_runtime::Address::Id(caller.public().into()),
+		zaxis_primitives::v0::Signature::Sr25519(signature.clone()),
 		extra.clone(),
 	)
 }
@@ -372,7 +372,7 @@ pub fn construct_transfer_extrinsic(
 	dest: sp_keyring::AccountKeyring,
 	value: Balance,
 ) -> UncheckedExtrinsic {
-	let function = polkadot_test_runtime::Call::Balances(pallet_balances::Call::transfer(
+	let function = zaxis_test_runtime::Call::Balances(pallet_balances::Call::transfer(
 		MultiSigner::from(dest.public()).into_account().into(),
 		value,
 	));

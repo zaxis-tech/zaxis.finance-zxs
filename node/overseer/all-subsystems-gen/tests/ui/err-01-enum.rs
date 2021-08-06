@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use polkadot_overseer_all_subsystems_gen::AllSubsystemsGen;
+use zaxis_overseer_all_subsystems_gen::AllSubsystemsGen;
 
 #[derive(Clone, AllSubsystemsGen)]
 enum AllSubsystems<A,B> {

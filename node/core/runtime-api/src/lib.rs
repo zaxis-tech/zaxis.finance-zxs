@@ -1,18 +1,18 @@
 // Copyright 2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 //! Implements the Runtime API Subsystem
 //!
@@ -22,9 +22,9 @@
 #![deny(unused_crate_dependencies)]
 #![warn(missing_docs)]
 
-use polkadot_node_subsystem_util::metrics::{self, prometheus};
-use polkadot_primitives::v1::{Block, BlockId, Hash, ParachainHost};
-use polkadot_subsystem::{
+use zaxis_node_subsystem_util::metrics::{self, prometheus};
+use zaxis_primitives::v1::{Block, BlockId, Hash, ParachainHost};
+use zaxis_subsystem::{
 	errors::RuntimeApiError,
 	messages::{RuntimeApiMessage, RuntimeApiRequest as Request},
 	overseer, FromOverseer, OverseerSignal, SpawnedSubsystem, SubsystemContext, SubsystemError,
@@ -51,7 +51,7 @@ const LOG_TARGET: &str = "parachain::runtime-api";
 const MAX_PARALLEL_REQUESTS: usize = 4;
 
 /// The name of the blocking task that executes a runtime API request.
-const API_REQUEST_TASK_NAME: &str = "polkadot-runtime-api-request";
+const API_REQUEST_TASK_NAME: &str = "zaxis-runtime-api-request";
 
 /// The `RuntimeApiSubsystem`. See module docs for more details.
 pub struct RuntimeApiSubsystem<Client> {

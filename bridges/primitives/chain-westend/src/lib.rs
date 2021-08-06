@@ -25,14 +25,14 @@ use bp_runtime::Chain;
 use sp_std::prelude::*;
 use sp_version::RuntimeVersion;
 
-pub use bp_polkadot_core::*;
+pub use bp_zaxis_core::*;
 
 /// Westend Chain
-pub type Westend = PolkadotLike;
+pub type Westend = Z-AxisLike;
 
-pub type UncheckedExtrinsic = bp_polkadot_core::UncheckedExtrinsic<Call>;
+pub type UncheckedExtrinsic = bp_zaxis_core::UncheckedExtrinsic<Call>;
 
-// NOTE: This needs to be kept up to date with the Westend runtime found in the Polkadot repo.
+// NOTE: This needs to be kept up to date with the Westend runtime found in the Z-Axis repo.
 pub const VERSION: RuntimeVersion = RuntimeVersion {
 	spec_name: sp_version::create_runtime_str!("westend"),
 	impl_name: sp_version::create_runtime_str!("parity-westend"),
@@ -52,7 +52,7 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 /// All entries here (like pretty much in the entire file) must be kept in sync with Westend
 /// `construct_runtime`, so that we maintain SCALE-compatibility.
 ///
-/// See: https://github.com/paritytech/polkadot/blob/master/runtime/westend/src/lib.rs
+/// See: https://github.com/paritytech/zaxis/blob/master/runtime/westend/src/lib.rs
 #[derive(parity_scale_codec::Encode, parity_scale_codec::Decode, Debug, PartialEq, Eq, Clone)]
 pub enum Call {
 	/// Rococo bridge pallet.
@@ -65,11 +65,11 @@ pub enum Call {
 pub enum BridgeGrandpaRococoCall {
 	#[codec(index = 0)]
 	submit_finality_proof(
-		<PolkadotLike as Chain>::Header,
-		bp_header_chain::justification::GrandpaJustification<<PolkadotLike as Chain>::Header>,
+		<Z-AxisLike as Chain>::Header,
+		bp_header_chain::justification::GrandpaJustification<<Z-AxisLike as Chain>::Header>,
 	),
 	#[codec(index = 1)]
-	initialize(bp_header_chain::InitializationData<<PolkadotLike as Chain>::Header>),
+	initialize(bp_header_chain::InitializationData<<Z-AxisLike as Chain>::Header>),
 }
 
 impl sp_runtime::traits::Dispatchable for Call {

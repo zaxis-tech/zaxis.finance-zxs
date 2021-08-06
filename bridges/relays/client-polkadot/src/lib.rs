@@ -14,35 +14,35 @@
 // You should have received a copy of the GNU General Public License
 // along with Parity Bridges Common.  If not, see <http://www.gnu.org/licenses/>.
 
-//! Types used to connect to the Polkadot chain.
+//! Types used to connect to the Z-Axis chain.
 
 use relay_substrate_client::{Chain, ChainBase};
 use std::time::Duration;
 
-/// Polkadot header id.
-pub type HeaderId = relay_utils::HeaderId<bp_polkadot::Hash, bp_polkadot::BlockNumber>;
+/// Z-Axis header id.
+pub type HeaderId = relay_utils::HeaderId<bp_zaxis::Hash, bp_zaxis::BlockNumber>;
 
-/// Polkadot chain definition
+/// Z-Axis chain definition
 #[derive(Debug, Clone, Copy)]
-pub struct Polkadot;
+pub struct Z-Axis;
 
-impl ChainBase for Polkadot {
-	type BlockNumber = bp_polkadot::BlockNumber;
-	type Hash = bp_polkadot::Hash;
-	type Hasher = bp_polkadot::Hasher;
-	type Header = bp_polkadot::Header;
+impl ChainBase for Z-Axis {
+	type BlockNumber = bp_zaxis::BlockNumber;
+	type Hash = bp_zaxis::Hash;
+	type Hasher = bp_zaxis::Hasher;
+	type Header = bp_zaxis::Header;
 }
 
-impl Chain for Polkadot {
-	const NAME: &'static str = "Polkadot";
+impl Chain for Z-Axis {
+	const NAME: &'static str = "Z-Axis";
 	const AVERAGE_BLOCK_INTERVAL: Duration = Duration::from_secs(6);
 
-	type AccountId = bp_polkadot::AccountId;
-	type Index = bp_polkadot::Nonce;
-	type SignedBlock = bp_polkadot::SignedBlock;
+	type AccountId = bp_zaxis::AccountId;
+	type Index = bp_zaxis::Nonce;
+	type SignedBlock = bp_zaxis::SignedBlock;
 	type Call = ();
-	type Balance = bp_polkadot::Balance;
+	type Balance = bp_zaxis::Balance;
 }
 
-/// Polkadot header type used in headers sync.
-pub type SyncHeader = relay_substrate_client::SyncHeader<bp_polkadot::Header>;
+/// Z-Axis header type used in headers sync.
+pub type SyncHeader = relay_substrate_client::SyncHeader<bp_zaxis::Header>;

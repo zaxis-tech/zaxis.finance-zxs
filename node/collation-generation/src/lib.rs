@@ -1,37 +1,37 @@
 // Copyright 2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
-//! The collation generation subsystem is the interface between polkadot and the collators.
+//! The collation generation subsystem is the interface between zaxis and the collators.
 
 #![deny(missing_docs)]
 
 use futures::{channel::mpsc, future::FutureExt, join, select, sink::SinkExt, stream::StreamExt};
 use parity_scale_codec::Encode;
-use polkadot_node_primitives::{AvailableData, CollationGenerationConfig, PoV};
-use polkadot_node_subsystem::{
+use zaxis_node_primitives::{AvailableData, CollationGenerationConfig, PoV};
+use zaxis_node_subsystem::{
 	messages::{AllMessages, CollationGenerationMessage, CollatorProtocolMessage},
 	overseer, ActiveLeavesUpdate, FromOverseer, OverseerSignal, SpawnedSubsystem, SubsystemContext,
 	SubsystemError, SubsystemResult,
 };
-use polkadot_node_subsystem_util::{
+use zaxis_node_subsystem_util::{
 	metrics::{self, prometheus},
 	request_availability_cores, request_persisted_validation_data, request_validation_code,
 	request_validators,
 };
-use polkadot_primitives::v1::{
+use zaxis_primitives::v1::{
 	collator_signature_payload, CandidateCommitments, CandidateDescriptor, CandidateReceipt,
 	CoreState, Hash, OccupiedCoreAssumption, PersistedValidationData,
 };
@@ -205,7 +205,7 @@ async fn handle_new_activations<Context: SubsystemContext>(
 				CoreState::Scheduled(scheduled_core) =>
 					(scheduled_core, OccupiedCoreAssumption::Free),
 				CoreState::Occupied(_occupied_core) => {
-					// TODO: https://github.com/paritytech/polkadot/issues/1573
+					// TODO: https://github.com/paritytech/zaxis/issues/1573
 					tracing::trace!(
 						target: LOG_TARGET,
 						core_idx = %core_idx,
@@ -310,7 +310,7 @@ async fn handle_new_activations<Context: SubsystemContext>(
 
 					// Apply compression to the block data.
 					let pov = {
-						let pov = polkadot_node_primitives::maybe_compress_pov(
+						let pov = zaxis_node_primitives::maybe_compress_pov(
 							collation.proof_of_validity,
 						);
 						let encoded_size = pov.encoded_size();
@@ -422,8 +422,8 @@ fn erasure_root(
 	let available_data =
 		AvailableData { validation_data: persisted_validation, pov: Arc::new(pov) };
 
-	let chunks = polkadot_erasure_coding::obtain_chunks_v1(n_validators, &available_data)?;
-	Ok(polkadot_erasure_coding::branches(&chunks).root())
+	let chunks = zaxis_erasure_coding::obtain_chunks_v1(n_validators, &available_data)?;
+	Ok(zaxis_erasure_coding::branches(&chunks).root())
 }
 
 #[derive(Clone)]

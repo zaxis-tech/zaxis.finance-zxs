@@ -1,5 +1,5 @@
 
-= Polkadot primitives
+= Z-Axis primitives
 
 placeholder
-//TODO Write content :) (https://github.com/paritytech/polkadot/issues/159)
+//TODO Write content :) (https://github.com/paritytech/zaxis/issues/159)

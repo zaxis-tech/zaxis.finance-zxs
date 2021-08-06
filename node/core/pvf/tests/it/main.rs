@@ -1,25 +1,25 @@
 // Copyright 2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 use async_std::sync::Mutex;
 use parity_scale_codec::Encode as _;
-use polkadot_node_core_pvf::{
+use zaxis_node_core_pvf::{
 	start, Config, InvalidCandidate, Pvf, ValidationError, ValidationHost,
 };
-use polkadot_parachain::primitives::{BlockData, ValidationParams, ValidationResult};
+use zaxis_parachain::primitives::{BlockData, ValidationParams, ValidationResult};
 
 mod adder;
 mod worker_common;
@@ -65,7 +65,7 @@ impl TestHost {
 			.execute_pvf(
 				Pvf::from_code(code.into()),
 				params.encode(),
-				polkadot_node_core_pvf::Priority::Normal,
+				zaxis_node_core_pvf::Priority::Normal,
 				result_tx,
 			)
 			.await

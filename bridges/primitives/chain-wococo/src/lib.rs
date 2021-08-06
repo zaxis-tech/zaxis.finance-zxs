@@ -23,12 +23,12 @@
 use bp_messages::{LaneId, MessageDetails, MessageNonce, UnrewardedRelayersState};
 use sp_std::prelude::*;
 
-pub use bp_polkadot_core::*;
+pub use bp_zaxis_core::*;
 // Rococo runtime = Wococo runtime
 pub use bp_rococo::{WeightToFee, SESSION_LENGTH, VERSION};
 
 /// Wococo Chain
-pub type Wococo = PolkadotLike;
+pub type Wococo = Z-AxisLike;
 
 // We use this to get the account on Wococo (target) which is derived from Rococo's (source)
 // account.

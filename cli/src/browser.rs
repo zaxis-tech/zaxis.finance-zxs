@@ -31,11 +31,11 @@ fn start_inner(
 	set_console_error_panic_hook();
 	init_logging(&log_directives)?;
 
-	let chain_spec = service::PolkadotChainSpec::from_json_bytes(chain_spec.as_bytes().to_vec())
+	let chain_spec = service::Z-AxisChainSpec::from_json_bytes(chain_spec.as_bytes().to_vec())
 		.map_err(|e| format!("{:?}", e))?;
 	let config = browser_configuration(chain_spec)?;
 
-	info!("Polkadot browser node");
+	info!("Z-Axis browser node");
 	info!("  version {}", config.impl_version);
 	info!("  by Parity Technologies, 2017-2020");
 	info!("📋 Chain specification: {}", config.chain_spec.name());

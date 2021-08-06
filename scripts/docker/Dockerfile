@@ -8,11 +8,11 @@ ARG IMAGE_NAME
 LABEL io.parity.image.authors="devops-team@parity.io" \
 	io.parity.image.vendor="Parity Technologies" \
 	io.parity.image.title="${IMAGE_NAME}" \
-	io.parity.image.description="polkadot: a platform for web3" \
-	io.parity.image.source="https://github.com/paritytech/polkadot/blob/${VCS_REF}/scripts/docker/Dockerfile" \
+	io.parity.image.description="zaxis: a platform for web3" \
+	io.parity.image.source="https://github.com/paritytech/zaxis/blob/${VCS_REF}/scripts/docker/Dockerfile" \
 	io.parity.image.revision="${VCS_REF}" \
 	io.parity.image.created="${BUILD_DATE}" \
-	io.parity.image.documentation="https://github.com/paritytech/polkadot/"
+	io.parity.image.documentation="https://github.com/paritytech/zaxis/"
 
 # show backtraces
 ENV RUST_BACKTRACE 1
@@ -27,21 +27,21 @@ RUN apt-get update && \
 	apt-get autoremove -y && \
 	apt-get clean && \
 	find /var/lib/apt/lists/ -type f -not -name lock -delete; \
-# add user and link ~/.local/share/polkadot to /data
-	useradd -m -u 1000 -U -s /bin/sh -d /polkadot polkadot && \
-	mkdir -p /data /polkadot/.local/share && \
-	chown -R polkadot:polkadot /data && \
-	ln -s /data /polkadot/.local/share/polkadot
+# add user and link ~/.local/share/zaxis to /data
+	useradd -m -u 1000 -U -s /bin/sh -d /zaxis zaxis && \
+	mkdir -p /data /zaxis/.local/share && \
+	chown -R zaxis:zaxis /data && \
+	ln -s /data /zaxis/.local/share/zaxis
 
-# add polkadot binary to docker image
-COPY ./polkadot /usr/local/bin
+# add zaxis binary to docker image
+COPY ./zaxis /usr/local/bin
 
-USER polkadot
+USER zaxis
 
 # check if executable works in this container
-RUN /usr/local/bin/polkadot --version
+RUN /usr/local/bin/zaxis --version
 
 EXPOSE 30333 9933 9944
-VOLUME ["/polkadot"]
+VOLUME ["/zaxis"]
 
-ENTRYPOINT ["/usr/local/bin/polkadot"]
+ENTRYPOINT ["/usr/local/bin/zaxis"]

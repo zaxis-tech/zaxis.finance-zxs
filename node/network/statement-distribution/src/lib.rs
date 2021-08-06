@@ -1,18 +1,18 @@
 // Copyright 2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 //! The Statement Distribution Subsystem.
 //!
@@ -25,22 +25,22 @@
 use error::{log_error, FatalResult, NonFatalResult};
 use parity_scale_codec::Encode;
 
-use polkadot_node_network_protocol::{
+use zaxis_node_network_protocol::{
 	peer_set::{IsAuthority, PeerSet},
 	v1::{self as protocol_v1, StatementMetadata},
 	IfDisconnected, PeerId, UnifiedReputationChange as Rep, View,
 };
-use polkadot_node_primitives::{SignedFullStatement, Statement, UncheckedSignedFullStatement};
-use polkadot_node_subsystem_util::{
+use zaxis_node_primitives::{SignedFullStatement, Statement, UncheckedSignedFullStatement};
+use zaxis_node_subsystem_util::{
 	self as util,
 	metrics::{self, prometheus},
 	MIN_GOSSIP_PEERS,
 };
-use polkadot_primitives::v1::{
+use zaxis_primitives::v1::{
 	AuthorityDiscoveryId, CandidateHash, CommittedCandidateReceipt, CompactStatement, Hash,
 	SigningContext, ValidatorId, ValidatorIndex, ValidatorSignature,
 };
-use polkadot_subsystem::{
+use zaxis_subsystem::{
 	jaeger,
 	messages::{
 		AllMessages, CandidateBackingMessage, NetworkBridgeEvent, NetworkBridgeMessage,
@@ -207,7 +207,7 @@ struct PeerRelayParentKnowledge {
 	/// How many large statements this peer already sent us.
 	///
 	/// Flood protection for large statements is rather hard and as soon as we get
-	/// `https://github.com/paritytech/polkadot/issues/2979` implemented also no longer necessary.
+	/// `https://github.com/paritytech/zaxis/issues/2979` implemented also no longer necessary.
 	/// Reason: We keep messages around until we fetched the payload, but if a node makes up
 	/// statements and never provides the data, we will keep it around for the slot duration. Not
 	/// even signature checking would help, as the sender, if a validator, can just sign arbitrary

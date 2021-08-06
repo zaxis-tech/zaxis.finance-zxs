@@ -2,7 +2,7 @@
 
 Native runtimes:
 
-- Polkadot: **<%= polkadot_runtime %>**
+- Z-Axis: **<%= zaxis_runtime %>**
 - Kusama: **<%= kusama_runtime %>**
 - Westend: **<%= westend_runtime %>**
 
@@ -11,10 +11,10 @@ This release was tested against the following versions of `rustc`. Other version
 - <%= rustc_stable %>
 - <%= rustc_nightly %>
 
-WASM runtimes built with [srtool](https://github.com/paritytech/srtool) using `<%= polkadot_json['rustc'] %>`.
+WASM runtimes built with [srtool](https://github.com/paritytech/srtool) using `<%= zaxis_json['rustc'] %>`.
 
 Proposal hashes:
-* `polkadot_runtime-v<%= polkadot_runtime %>.compact.wasm - <%= polkadot_json['prop'] %>`
+* `zaxis_runtime-v<%= zaxis_runtime %>.compact.wasm - <%= zaxis_json['prop'] %>`
 * `kusama_runtime-v<%= kusama_runtime %>.compact.wasm - <%= kusama_json['prop'] %>`
 
 <% unless misc_changes.empty? %>

@@ -1,5 +1,5 @@
 // Copyright 2017-2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
 // Substrate is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -184,7 +184,7 @@ pub mod pallet {
 	#[pallet::storage]
 	pub(super) type Statement<T> = StorageValue<_, Vec<u8>, ValueQuery>;
 
-	// The block where all locked dots will unlock.
+	// The block where all locked zxss will unlock.
 	#[pallet::storage]
 	pub(super) type UnlockBlock<T: Config> = StorageValue<_, T::BlockNumber, ValueQuery>;
 
@@ -415,7 +415,7 @@ impl<T: Config> Pallet<T> {
 		ensure!(signature.len() == 64, Error::<T>::InvalidSignature);
 		let signature: AnySignature = sr25519::Signature::from_slice(signature).into();
 
-		// In Polkadot, the AccountId is always the same as the 32 byte public key.
+		// In Z-Axis, the AccountId is always the same as the 32 byte public key.
 		let account_bytes: [u8; 32] = account_to_bytes(who)?;
 		let public_key = sr25519::Public::from_raw(account_bytes);
 

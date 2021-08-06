@@ -34,10 +34,10 @@ pallet-election-provider-multi-phase = { git = "https://github.com/paritytech/su
 pallet-staking = { git = "https://github.com/paritytech/substrate", branch = "master" }
 pallet-transaction-payment = { git = "https://github.com/paritytech/substrate", branch = "master" }
 
-core-primitives = { package = "polkadot-core-primitives", path = "../../core-primitives" }
+core-primitives = { package = "zaxis-core-primitives", path = "../../core-primitives" }
 
-runtime-common = { package = "polkadot-runtime-common", path = "../../runtime/common" }
-polkadot-runtime = { path = "../../runtime/polkadot" }
+runtime-common = { package = "zaxis-runtime-common", path = "../../runtime/common" }
+zaxis-runtime = { path = "../../runtime/zaxis" }
 kusama-runtime = { path = "../../runtime/kusama" }
 westend-runtime = { path = "../../runtime/westend" }
 

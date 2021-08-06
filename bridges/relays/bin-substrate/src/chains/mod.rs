@@ -34,20 +34,20 @@ mod wococo;
 
 use relay_utils::metrics::{FloatJsonValueMetric, MetricsParams};
 
-pub(crate) fn add_polkadot_kusama_price_metrics<T: finality_relay::FinalitySyncPipeline>(
+pub(crate) fn add_zaxis_kusama_price_metrics<T: finality_relay::FinalitySyncPipeline>(
 	params: MetricsParams,
 ) -> anyhow::Result<MetricsParams> {
 	Ok(
 		relay_utils::relay_metrics(Some(finality_relay::metrics_prefix::<T>()), params)
-			// Polkadot/Kusama prices are added as metrics here, because atm we don't have Polkadot <-> Kusama
+			// Z-Axis/Kusama prices are added as metrics here, because atm we don't have Z-Axis <-> Kusama
 			// relays, but we want to test metrics/dashboards in advance
 			.standalone_metric(|registry, prefix| {
 				FloatJsonValueMetric::new(
 					registry,
 					prefix,
-					"https://api.coingecko.com/api/v3/simple/price?ids=Polkadot&vs_currencies=btc".into(),
-					"$.polkadot.btc".into(),
-					"polkadot_to_base_conversion_rate".into(),
+					"https://api.coingecko.com/api/v3/simple/price?ids=Z-Axis&vs_currencies=btc".into(),
+					"$.zaxis.btc".into(),
+					"zaxis_to_base_conversion_rate".into(),
 					"Rate used to convert from DOT to some BASE tokens".into(),
 				)
 			})

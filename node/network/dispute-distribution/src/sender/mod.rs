@@ -1,28 +1,28 @@
 // Copyright 2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 use std::collections::{hash_map::Entry, HashMap, HashSet};
 
 use futures::channel::{mpsc, oneshot};
 
-use polkadot_node_network_protocol::request_response::v1::DisputeRequest;
-use polkadot_node_primitives::{CandidateVotes, DisputeMessage, SignedDisputeStatement};
-use polkadot_node_subsystem_util::runtime::RuntimeInfo;
-use polkadot_primitives::v1::{CandidateHash, DisputeStatement, Hash, SessionIndex};
-use polkadot_subsystem::{
+use zaxis_node_network_protocol::request_response::v1::DisputeRequest;
+use zaxis_node_primitives::{CandidateVotes, DisputeMessage, SignedDisputeStatement};
+use zaxis_node_subsystem_util::runtime::RuntimeInfo;
+use zaxis_primitives::v1::{CandidateHash, DisputeStatement, Hash, SessionIndex};
+use zaxis_subsystem::{
 	messages::{AllMessages, DisputeCoordinatorMessage},
 	ActiveLeavesUpdate, SubsystemContext,
 };

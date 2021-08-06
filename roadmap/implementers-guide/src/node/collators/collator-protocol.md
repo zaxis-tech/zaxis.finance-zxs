@@ -8,7 +8,7 @@ Since, at least at the level of the para abstraction, the collator-set for any g
 
 Validation of candidates is a heavy task, and furthermore, the [`PoV`][PoV] itself is a large piece of data. Empirically, `PoV`s are on the order of 10MB.
 
-> TODO: note the incremental validation function Ximin proposes at https://github.com/paritytech/polkadot/issues/1348
+> TODO: note the incremental validation function Ximin proposes at https://github.com/paritytech/zaxis/issues/1348
 
 As this network protocol serves as a bridge between collators and validators, it communicates primarily with one subsystem on behalf of each. As a collator, this will receive messages from the [`CollationGeneration`][CG] subsystem. As a validator, this will communicate only with the [`CandidateBacking`][CB].
 
@@ -31,7 +31,7 @@ It uses the [`CollatorProtocolV1Message`](../../types/network.md#collator-protoc
 Since this protocol functions both for validators and collators, it is easiest to go through the protocol actions for each of them separately.
 
 Validators and collators.
-```dot process
+```zxs process
 digraph {
   c1 [shape=MSquare, label="Collator 1"];
   c2 [shape=MSquare, label="Collator 2"];
@@ -66,7 +66,7 @@ Once connected to the relevant peers for the current group assigned to the core 
 
 On the validator side of the protocol, validators need to accept incoming connections from collators. They should keep some peer slots open for accepting new speculative connections from collators and should disconnect from collators who are not relevant.
 
-```dot process
+```zxs process
 digraph G {
   label = "Declaring, advertising, and providing collations";
   labelloc = "t";

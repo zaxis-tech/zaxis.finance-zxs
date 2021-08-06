@@ -1,8 +1,8 @@
 [package]
-name = "polkadot-cli"
+name = "zaxis-cli"
 version = "0.9.9"
 authors = ["Parity Technologies <admin@parity.io>"]
-description = "Polkadot Relay-chain Client Node"
+description = "Z-Axis Relay-chain Client Node"
 edition = "2018"
 
 [package.metadata.wasm-pack.profile.release]
@@ -21,8 +21,8 @@ wasm-bindgen = { version = "0.2.70", optional = true }
 wasm-bindgen-futures = { version = "0.4.23", optional = true }
 futures = "0.3.15"
 
-service = { package = "polkadot-service", path = "../node/service", default-features = false, optional = true }
-polkadot-node-core-pvf = { path = "../node/core/pvf", optional = true }
+service = { package = "zaxis-service", path = "../node/service", default-features = false, optional = true }
+zaxis-node-core-pvf = { path = "../node/core/pvf", optional = true }
 
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "master" }
 frame-benchmarking-cli = { git = "https://github.com/paritytech/substrate", branch = "master", optional = true }
@@ -48,7 +48,7 @@ cli = [
 	"sc-service",
 	"frame-benchmarking-cli",
 	"try-runtime-cli",
-	"polkadot-node-core-pvf",
+	"zaxis-node-core-pvf",
 ]
 browser = [
 	"wasm-bindgen",
@@ -61,7 +61,7 @@ trie-memory-tracker = [ "sp-trie/memory-tracker" ]
 full-node = [ "service/full-node" ]
 try-runtime = [ "service/try-runtime" ]
 
-# Configure the native runtimes to use. Polkadot is always enabled by default.
+# Configure the native runtimes to use. Z-Axis is always enabled by default.
 #
 # Validators require the native runtime currently
 kusama-native = [ "service/kusama-native" ]

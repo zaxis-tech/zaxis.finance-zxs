@@ -1,18 +1,18 @@
 // Copyright 2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 //! # Overseer
 //!
@@ -73,11 +73,11 @@ use lru::LruCache;
 use parking_lot::RwLock;
 
 use client::{BlockImportNotification, BlockchainEvents, FinalityNotification};
-use polkadot_primitives::v1::{Block, BlockId, BlockNumber, Hash, ParachainHost};
+use zaxis_primitives::v1::{Block, BlockId, BlockNumber, Hash, ParachainHost};
 use sp_api::{ApiExt, ProvideRuntimeApi};
 
-use polkadot_node_network_protocol::v1 as protocol_v1;
-use polkadot_node_subsystem_types::messages::{
+use zaxis_node_network_protocol::v1 as protocol_v1;
+use zaxis_node_subsystem_types::messages::{
 	ApprovalDistributionMessage, ApprovalVotingMessage, AvailabilityDistributionMessage,
 	AvailabilityRecoveryMessage, AvailabilityStoreMessage, BitfieldDistributionMessage,
 	BitfieldSigningMessage, CandidateBackingMessage, CandidateValidationMessage, ChainApiMessage,
@@ -86,25 +86,25 @@ use polkadot_node_subsystem_types::messages::{
 	GossipSupportMessage, NetworkBridgeEvent, NetworkBridgeMessage, ProvisionerMessage,
 	RuntimeApiMessage, StatementDistributionMessage,
 };
-pub use polkadot_node_subsystem_types::{
+pub use zaxis_node_subsystem_types::{
 	errors::{SubsystemError, SubsystemResult},
 	jaeger, ActivatedLeaf, ActiveLeavesUpdate, LeafStatus, OverseerSignal,
 };
 
 // TODO legacy, to be deleted, left for easier integration
-// TODO https://github.com/paritytech/polkadot/issues/3427
+// TODO https://github.com/paritytech/zaxis/issues/3427
 mod subsystems;
 pub use self::subsystems::AllSubsystems;
 
 mod metrics;
 use self::metrics::Metrics;
 
-use polkadot_node_metrics::{
+use zaxis_node_metrics::{
 	metrics::{prometheus, Metrics as MetricsTrait},
 	Metronome,
 };
-pub use polkadot_overseer_gen as gen;
-pub use polkadot_overseer_gen::{
+pub use zaxis_overseer_gen as gen;
+pub use zaxis_overseer_gen::{
 	overlord, FromOverseer, MapSubsystem, MessagePacket, SignalsReceived, SpawnNamed, Subsystem,
 	SubsystemContext, SubsystemIncomingMessages, SubsystemInstance, SubsystemMeterReadouts,
 	SubsystemMeters, SubsystemSender, TimeoutExt, ToOverseer,
@@ -140,7 +140,7 @@ where
 #[derive(Clone)]
 pub enum Handle {
 	/// Used only at initialization to break the cyclic dependency.
-	// TODO: refactor in https://github.com/paritytech/polkadot/issues/3427
+	// TODO: refactor in https://github.com/paritytech/zaxis/issues/3427
 	Disconnected(Arc<RwLock<Option<OverseerHandle>>>),
 	/// A handle to the overseer.
 	Connected(OverseerHandle),
@@ -484,8 +484,8 @@ where
 	/// # use std::time::Duration;
 	/// # use futures::{executor, pin_mut, select, FutureExt};
 	/// # use futures_timer::Delay;
-	/// # use polkadot_primitives::v1::Hash;
-	/// # use polkadot_overseer::{
+	/// # use zaxis_primitives::v1::Hash;
+	/// # use zaxis_overseer::{
 	/// # 	self as overseer,
 	/// #   OverseerSignal,
 	/// # 	SubsystemSender as _,
@@ -500,7 +500,7 @@ where
 	/// # 		SpawnedSubsystem,
 	/// # 	},
 	/// # };
-	/// # use polkadot_node_subsystem_types::messages::{
+	/// # use zaxis_node_subsystem_types::messages::{
 	/// # 	CandidateValidationMessage, CandidateBackingMessage,
 	/// # 	NetworkBridgeMessage,
 	/// # };
@@ -925,7 +925,7 @@ where
 // Kept out of the proc macro, for sake of simplicity reduce the need to make even
 // more types to the proc macro logic.
 
-use polkadot_node_network_protocol::request_response::{
+use zaxis_node_network_protocol::request_response::{
 	request::IncomingRequest, v1 as req_res_v1,
 };
 

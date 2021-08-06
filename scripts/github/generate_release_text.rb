@@ -15,22 +15,22 @@ github_client = Octokit::Client.new(
   access_token: token
 )
 
-polkadot_path = ENV['GITHUB_WORKSPACE'] + '/polkadot/'
+zaxis_path = ENV['GITHUB_WORKSPACE'] + '/zaxis/'
 
 # Generate an ERB renderer based on the template .erb file
 renderer = ERB.new(
-  File.read(ENV['GITHUB_WORKSPACE'] + '/polkadot/scripts/github/polkadot_release.erb'),
+  File.read(ENV['GITHUB_WORKSPACE'] + '/zaxis/scripts/github/zaxis_release.erb'),
   trim_mode: '<>'
 )
 
-# get ref of last polkadot release
+# get ref of last zaxis release
 last_ref = 'refs/tags/' + github_client.latest_release(ENV['GITHUB_REPOSITORY']).tag_name
 
-polkadot_cl = Changelog.new(
-  'paritytech/polkadot', last_ref, current_ref, token: token
+zaxis_cl = Changelog.new(
+  'paritytech/zaxis', last_ref, current_ref, token: token
 )
 
-# Gets the substrate commit hash used for a given polkadot ref
+# Gets the substrate commit hash used for a given zaxis ref
 def get_substrate_commit(client, ref)
   cargo = TOML::Parser.new(
     Base64.decode64(
@@ -54,7 +54,7 @@ substrate_cl = Changelog.new(
 )
 
 # Combine all changes into a single array and filter out companions
-all_changes = (polkadot_cl.changes + substrate_cl.changes).reject do |c|
+all_changes = (zaxis_cl.changes + substrate_cl.changes).reject do |c|
   c[:title] =~ /[Cc]ompanion/
 end
 
@@ -96,16 +96,16 @@ release_priority = Changelog.highest_priority_for_changes(client_changes)
 # Pulled from the previous Github step
 rustc_stable = ENV['RUSTC_STABLE']
 rustc_nightly = ENV['RUSTC_NIGHTLY']
-polkadot_runtime = get_runtime('polkadot', polkadot_path)
-kusama_runtime = get_runtime('kusama', polkadot_path)
-westend_runtime = get_runtime('westend', polkadot_path)
+zaxis_runtime = get_runtime('zaxis', zaxis_path)
+kusama_runtime = get_runtime('kusama', zaxis_path)
+westend_runtime = get_runtime('westend', zaxis_path)
 
 # These json files should have been downloaded as part of the build-runtimes
 # github action
 
-polkadot_json = JSON.parse(
+zaxis_json = JSON.parse(
   File.read(
-    "#{ENV['GITHUB_WORKSPACE']}/polkadot-srtool-json/polkadot_srtool_output.json"
+    "#{ENV['GITHUB_WORKSPACE']}/zaxis-srtool-json/zaxis_srtool_output.json"
   )
 )
 

@@ -1,22 +1,22 @@
 // Copyright 2017-2020 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 //! Primitive types used on the node-side.
 //!
-//! Unlike the `polkadot-primitives` crate, these primitives are only used on the node-side,
+//! Unlike the `zaxis-primitives` crate, these primitives are only used on the node-side,
 //! not shared between the node and the runtime. This crate builds on top of the primitives defined
 //! there.
 
@@ -33,14 +33,14 @@ pub use sp_consensus_babe::{
 };
 pub use sp_core::traits::SpawnNamed;
 
-use polkadot_primitives::v1::{
+use zaxis_primitives::v1::{
 	BlakeTwo256, CandidateCommitments, CandidateHash, CollatorPair, CommittedCandidateReceipt,
 	CompactStatement, EncodeAs, Hash, HashT, HeadData, Id as ParaId, OutboundHrmpMessage,
 	PersistedValidationData, SessionIndex, Signed, UncheckedSigned, UpwardMessage, ValidationCode,
 	ValidatorIndex, MAX_CODE_SIZE, MAX_POV_SIZE,
 };
 
-pub use polkadot_parachain::primitives::BlockData;
+pub use zaxis_parachain::primitives::BlockData;
 
 pub mod approval;
 
@@ -58,7 +58,7 @@ pub const VALIDATION_CODE_BOMB_LIMIT: usize = (MAX_CODE_SIZE * 4u32) as usize;
 pub const POV_BOMB_LIMIT: usize = (MAX_POV_SIZE * 4u32) as usize;
 
 /// It would be nice to draw this from the chain state, but we have no tools for it right now.
-/// On Polkadot this is 1 day, and on Kusama it's 6 hours.
+/// On Z-Axis this is 1 day, and on Kusama it's 6 hours.
 ///
 /// Number of sessions we want to consider in disputes.
 pub const DISPUTE_WINDOW: SessionIndex = 6;
@@ -195,10 +195,10 @@ impl PoV {
 ///
 /// This differs from `CandidateCommitments` in two ways:
 ///
-/// - does not contain the erasure root; that's computed at the Polkadot level, not at Cumulus
+/// - does not contain the erasure root; that's computed at the Z-Axis level, not at Cumulus
 /// - contains a proof of validity.
 #[derive(Clone, Encode, Decode)]
-pub struct Collation<BlockNumber = polkadot_primitives::v1::BlockNumber> {
+pub struct Collation<BlockNumber = zaxis_primitives::v1::BlockNumber> {
 	/// Messages destined to be interpreted by the Relay chain itself.
 	pub upward_messages: Vec<UpwardMessage>,
 	/// The horizontal messages sent by the parachain.

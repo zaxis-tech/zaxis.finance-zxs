@@ -1,28 +1,28 @@
 // Copyright 2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
 //! A rolling window of sessions and cached session info, updated by the state of newly imported blocks.
 //!
 //! This is useful for consensus components which need to stay up-to-date about recent sessions but don't
 //! care about the state of particular blocks.
 
-use polkadot_primitives::v1::{Hash, Header, SessionIndex, SessionInfo};
+use zaxis_primitives::v1::{Hash, Header, SessionIndex, SessionInfo};
 
 use futures::channel::oneshot;
-use polkadot_node_subsystem::{
+use zaxis_node_subsystem::{
 	errors::RuntimeApiError,
 	messages::{RuntimeApiMessage, RuntimeApiRequest},
 	overseer, SubsystemContext,
@@ -287,8 +287,8 @@ async fn load_all_sessions(
 mod tests {
 	use super::*;
 	use assert_matches::assert_matches;
-	use polkadot_node_subsystem::messages::{AllMessages, AvailabilityRecoveryMessage};
-	use polkadot_node_subsystem_test_helpers::make_subsystem_context;
+	use zaxis_node_subsystem::messages::{AllMessages, AvailabilityRecoveryMessage};
+	use zaxis_node_subsystem_test_helpers::make_subsystem_context;
 	use sp_core::testing::TaskExecutor;
 
 	const TEST_WINDOW_SIZE: SessionIndex = 6;

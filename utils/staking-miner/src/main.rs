@@ -1,22 +1,22 @@
 // Copyright 2021 Parity Technologies (UK) Ltd.
-// This file is part of Polkadot.
+// This file is part of Z-Axis.
 
-// Polkadot is free software: you can redistribute it and/or modify
+// Z-Axis is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 
-// Polkadot is distributed in the hope that it will be useful,
+// Z-Axis is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
 
 // You should have received a copy of the GNU General Public License
-// along with Polkadot.  If not, see <http://www.gnu.org/licenses/>.
+// along with Z-Axis.  If not, see <http://www.gnu.org/licenses/>.
 
-//! # Polkadot Staking Miner.
+//! # Z-Axis Staking Miner.
 //!
-//! Simple bot capable of monitoring a polkadot (and cousins) chain and submitting solutions to the
+//! Simple bot capable of monitoring a zaxis (and cousins) chain and submitting solutions to the
 //! `pallet-election-provider-multi-phase`. See `--help` for more details.
 //!
 //! # Implementation Notes:
@@ -44,12 +44,12 @@ use sp_runtime::traits::Block as BlockT;
 use structopt::StructOpt;
 
 pub(crate) enum AnyRuntime {
-	Polkadot,
+	Z-Axis,
 	Kusama,
 	Westend,
 }
 
-pub(crate) static mut RUNTIME: AnyRuntime = AnyRuntime::Polkadot;
+pub(crate) static mut RUNTIME: AnyRuntime = AnyRuntime::Z-Axis;
 
 macro_rules! construct_runtime_prelude {
 	($runtime:ident) => { paste::paste! {
@@ -104,12 +104,12 @@ macro_rules! construct_runtime_prelude {
 }
 
 // NOTE: we might be able to use some code from the bridges repo here.
-fn signed_ext_builder_polkadot(
+fn signed_ext_builder_zaxis(
 	nonce: Index,
 	tip: Balance,
 	era: sp_runtime::generic::Era,
-) -> polkadot_runtime_exports::SignedExtra {
-	use polkadot_runtime_exports::Runtime;
+) -> zaxis_runtime_exports::SignedExtra {
+	use zaxis_runtime_exports::Runtime;
 	(
 		frame_system::CheckSpecVersion::<Runtime>::new(),
 		frame_system::CheckTxVersion::<Runtime>::new(),
@@ -156,7 +156,7 @@ fn signed_ext_builder_westend(
 	)
 }
 
-construct_runtime_prelude!(polkadot);
+construct_runtime_prelude!(zaxis);
 construct_runtime_prelude!(kusama);
 construct_runtime_prelude!(westend);
 
@@ -171,8 +171,8 @@ macro_rules! any_runtime {
 	($($code:tt)*) => {
 		unsafe {
 			match $crate::RUNTIME {
-				$crate::AnyRuntime::Polkadot => {
-					use $crate::polkadot_runtime_exports::*;
+				$crate::AnyRuntime::Z-Axis => {
+					use $crate::zaxis_runtime_exports::*;
 					$($code)*
 				},
 				$crate::AnyRuntime::Kusama => {
@@ -418,14 +418,14 @@ async fn main() {
 		.await
 		.expect("system_chain infallible; qed.");
 	match chain.to_lowercase().as_str() {
-		"polkadot" | "development" => {
+		"zaxis" | "development" => {
 			sp_core::crypto::set_default_ss58_version(
-				sp_core::crypto::Ss58AddressFormat::PolkadotAccount,
+				sp_core::crypto::Ss58AddressFormat::Z-AxisAccount,
 			);
 			// safety: this program will always be single threaded, thus accessing global static is
 			// safe.
 			unsafe {
-				RUNTIME = AnyRuntime::Polkadot;
+				RUNTIME = AnyRuntime::Z-Axis;
 			}
 		},
 		"kusama" | "kusama-dev" => {
@@ -440,7 +440,7 @@ async fn main() {
 		},
 		"westend" => {
 			sp_core::crypto::set_default_ss58_version(
-				sp_core::crypto::Ss58AddressFormat::PolkadotAccount,
+				sp_core::crypto::Ss58AddressFormat::Z-AxisAccount,
 			);
 			// safety: this program will always be single threaded, thus accessing global static is
 			// safe.
@@ -484,16 +484,16 @@ mod tests {
 	#[test]
 	fn any_runtime_works() {
 		unsafe {
-			RUNTIME = AnyRuntime::Polkadot;
+			RUNTIME = AnyRuntime::Z-Axis;
 		}
-		let polkadot_version = any_runtime! { get_version::<Runtime>() };
+		let zaxis_version = any_runtime! { get_version::<Runtime>() };
 
 		unsafe {
 			RUNTIME = AnyRuntime::Kusama;
 		}
 		let kusama_version = any_runtime! { get_version::<Runtime>() };
 
-		assert_eq!(polkadot_version.spec_name, "polkadot".into());
+		assert_eq!(zaxis_version.spec_name, "zaxis".into());
 		assert_eq!(kusama_version.spec_name, "kusama".into());
 	}
 }

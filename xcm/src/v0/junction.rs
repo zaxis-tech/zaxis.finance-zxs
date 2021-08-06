@@ -26,8 +26,8 @@ pub enum NetworkId {
 	Any,
 	/// Some named network.
 	Named(Vec<u8>),
-	/// The Polkadot Relay chain
-	Polkadot,
+	/// The Z-Axis Relay chain
+	Z-Axis,
 	/// Kusama.
 	Kusama,
 }
@@ -45,14 +45,14 @@ pub enum BodyId {
 		#[codec(compact)]
 		id: u32,
 	},
-	/// The unambiguous executive body (for Polkadot, this would be the Polkadot council).
+	/// The unambiguous executive body (for Z-Axis, this would be the Z-Axis council).
 	Executive,
-	/// The unambiguous technical body (for Polkadot, this would be the Technical Committee).
+	/// The unambiguous technical body (for Z-Axis, this would be the Technical Committee).
 	Technical,
-	/// The unambiguous legislative body (for Polkadot, this could be considered the opinion of a majority of
+	/// The unambiguous legislative body (for Z-Axis, this could be considered the opinion of a majority of
 	/// lock-voters).
 	Legislative,
-	/// The unambiguous judicial body (this doesn't exist on Polkadot, but if it were to get a "grand oracle", it
+	/// The unambiguous judicial body (this doesn't exist on Z-Axis, but if it were to get a "grand oracle", it
 	/// may be considered as that).
 	Judicial,
 }
@@ -114,7 +114,7 @@ pub enum Junction {
 	Parent,
 	/// An indexed parachain belonging to and operated by the context.
 	///
-	/// Generally used when the context is a Polkadot Relay-chain.
+	/// Generally used when the context is a Z-Axis Relay-chain.
 	Parachain(#[codec(compact)] u32),
 	/// A 32-byte identifier for an account of a specific network that is respected as a sovereign endpoint within
 	/// the context.

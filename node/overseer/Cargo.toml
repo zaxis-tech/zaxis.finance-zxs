@@ -1,5 +1,5 @@
 [package]
-name = "polkadot-overseer"
+name = "zaxis-overseer"
 version = "0.1.0"
 authors = ["Parity Technologies <admin@parity.io>"]
 edition = "2018"
@@ -11,13 +11,13 @@ sp-api = { git = "https://github.com/paritytech/substrate", branch = "master" }
 futures = "0.3.15"
 futures-timer = "3.0.2"
 parking_lot = "0.11.1"
-polkadot-node-network-protocol = { path = "../network/protocol" }
-polkadot-node-primitives = { path = "../primitives" }
-polkadot-node-subsystem-types = { path = "../subsystem-types" }
-polkadot-node-metrics = { path = "../metrics" }
-polkadot-primitives = { path = "../../primitives" }
-polkadot-overseer-gen = { path = "./overseer-gen" }
-polkadot-overseer-all-subsystems-gen = { path = "./all-subsystems-gen" }
+zaxis-node-network-protocol = { path = "../network/protocol" }
+zaxis-node-primitives = { path = "../primitives" }
+zaxis-node-subsystem-types = { path = "../subsystem-types" }
+zaxis-node-metrics = { path = "../metrics" }
+zaxis-primitives = { path = "../../primitives" }
+zaxis-overseer-gen = { path = "./overseer-gen" }
+zaxis-overseer-all-subsystems-gen = { path = "./all-subsystems-gen" }
 tracing = "0.1.26"
 lru = "0.6"
 

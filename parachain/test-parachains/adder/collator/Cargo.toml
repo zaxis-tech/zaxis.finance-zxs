@@ -21,11 +21,11 @@ log = "0.4.13"
 structopt = "0.3.21"
 
 test-parachain-adder = { path = ".." }
-polkadot-primitives = { path = "../../../../primitives" }
-polkadot-cli = { path = "../../../../cli" }
-polkadot-service = { path = "../../../../node/service", features = [ "rococo-native" ] }
-polkadot-node-primitives = { path = "../../../../node/primitives" }
-polkadot-node-subsystem = { path = "../../../../node/subsystem" }
+zaxis-primitives = { path = "../../../../primitives" }
+zaxis-cli = { path = "../../../../cli" }
+zaxis-service = { path = "../../../../node/service", features = [ "rococo-native" ] }
+zaxis-node-primitives = { path = "../../../../node/primitives" }
+zaxis-node-subsystem = { path = "../../../../node/subsystem" }
 
 sc-cli = { git = "https://github.com/paritytech/substrate", branch = "master" }
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "master" }
@@ -35,11 +35,11 @@ sc-service = { git = "https://github.com/paritytech/substrate", branch = "master
 # This one is tricky. Even though it is not used directly by the collator, we still need it for the
 # `puppet_worker` binary, which is required for the integration test. However, this shouldn't be
 # a big problem since it is used transitively anyway.
-polkadot-node-core-pvf = { path = "../../../../node/core/pvf" }
+zaxis-node-core-pvf = { path = "../../../../node/core/pvf" }
 
 [dev-dependencies]
-polkadot-parachain = { path = "../../.." }
-polkadot-test-service = { path = "../../../../node/test/service" }
+zaxis-parachain = { path = "../../.." }
+zaxis-test-service = { path = "../../../../node/test/service" }
 
 substrate-test-utils = { git = "https://github.com/paritytech/substrate", branch = "master" }
 sc-service = { git = "https://github.com/paritytech/substrate", branch = "master" }
